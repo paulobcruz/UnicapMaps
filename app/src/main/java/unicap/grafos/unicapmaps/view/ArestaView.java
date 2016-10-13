@@ -10,42 +10,38 @@ import android.graphics.PathEffect;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.ArrayList;
+
+import unicap.grafos.unicapmaps.model.Aresta;
+import unicap.grafos.unicapmaps.model.Coordenadas;
+
 /**
  * Created by Cais Automação on 08/10/2016. project UnicapMaps
  */
 
 public class ArestaView extends View{
 
-    Paint paint;
-    Path path;
+    Paint paint = new Paint();
+    Path path = new Path();
 
     public ArestaView(Context context){
         super(context);
-        init();
     }
     public ArestaView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
     }
 
     public ArestaView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
     }
 
-    private void init() {
-        paint = new Paint();
+    private void setPaint() {
         paint.setColor(Color.BLUE);
         paint.setStrokeWidth(20);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setAlpha(127);
         paint.setAntiAlias(true);
-
-        path = new Path();
-        path.moveTo(10,10);
-        path.lineTo(200,200);
-        path.lineTo(20, 200);
     }
 
     @Override
@@ -53,5 +49,16 @@ public class ArestaView extends View{
         super.onDraw(canvas);
 
         canvas.drawPath(path, paint);
+    }
+
+    public void show(Aresta aresta) {
+        ArrayList<Coordenadas> coords = aresta.getCoordTrajeto();
+
+        setPaint();
+        path.reset();
+        path.moveTo(coords.get(0).getX(), coords.get(0).getY());
+        for(Coordenadas ponto: coords){
+            path.lineTo(ponto.getX(), ponto.getY());
+        }
     }
 }

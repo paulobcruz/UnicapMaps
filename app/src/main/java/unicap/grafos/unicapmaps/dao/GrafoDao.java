@@ -48,6 +48,7 @@ public class GrafoDao {
         grafo = Grafo.getInstance();
         criarVertices();
         estabelecerAdjacencias();
+        configArestas();
     }
 
     private void estabelecerAdjacencias() {
@@ -59,6 +60,7 @@ public class GrafoDao {
         //verifica cada vertice se tem adjacencias, a partir da matriz de adjacencias
         for(Vertice atual: grafo.getVertices()){
             id = atual.getId();
+            //atual.addAdjacente(atual);  //caso considerar laços, descomentar essa linha
             for(i = 0; i < grauMatriz; i++){
                 if(matrizAdjacencias[id][i] == 1){ //se tiver adjacencia, o "i" é o id do vértice adjacente
                     //busca o vertice pelo id "i" e adiciona como adjacente no Vertice atual
@@ -83,6 +85,17 @@ public class GrafoDao {
             grafo.addVertice(novo);
         }
     }
+
+    private void configArestas(){
+        for(Aresta aresta: grafo.getArestas()){
+            aresta.addCoord(0,0);
+            aresta.addCoord(10,20);
+            aresta.addCoord(50,20);
+            aresta.addCoord(50,100);
+        }
+    }
+
+
 
 
 }

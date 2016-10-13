@@ -23,12 +23,17 @@ import unicap.grafos.unicapmaps.model.Grafo;
 public class Main extends AppCompatActivity {
 
     private Grafo grafo = Grafo.getInstance();
-    GestureDetector.SimpleOnGestureListener gestureDetector;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        GrafoController grafoController = new GrafoController();
+
+        ArestaView arestaView = (ArestaView) findViewById(R.id.aresta_view);
+        grafoController.showAresta(grafo, arestaView, 0);
+
 
         ZoomLayout mapaViewPort = (ZoomLayout) findViewById(R.id.mapaViewPort);
         //mapaViewPort.removeView(mapaConteudo);

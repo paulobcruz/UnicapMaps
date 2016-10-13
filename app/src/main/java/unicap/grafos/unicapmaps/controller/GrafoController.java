@@ -5,6 +5,7 @@ import android.content.Context;
 
 import unicap.grafos.unicapmaps.model.Aresta;
 import unicap.grafos.unicapmaps.model.Grafo;
+import unicap.grafos.unicapmaps.view.ArestaView;
 
 /**
  * Created by Cais Automação on 06/10/2016. project UnicapMaps
@@ -26,5 +27,10 @@ public class GrafoController {
         }
         return lista;
 
+    }
+
+    public void showAresta(Grafo grafo, ArestaView arestaView, int idAresta) {
+        Aresta aresta = grafo.getAresta(idAresta);
+        arestaView.show(aresta);
     }
 }
