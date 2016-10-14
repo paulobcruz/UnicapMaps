@@ -28,6 +28,18 @@
                 android:layout_height="wrap_content"
                 android:background="@color/bg2">
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:id="@+id/mapaView"
+        android:scaleType="matrix"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+=======
+>>>>>>> 82477fb9ed89d161b04e0d16cd226b855aa63a4c
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -41,6 +53,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/imagem_mapa"
                     android:layout_alignLeft="@id/imagem_mapa">
+<<<<<<< HEAD
+=======
+>>>>>>> upstream/master
+>>>>>>> 82477fb9ed89d161b04e0d16cd226b855aa63a4c
 
                 </RelativeLayout>
                 <unicap.grafos.unicapmaps.view.BotaoView
