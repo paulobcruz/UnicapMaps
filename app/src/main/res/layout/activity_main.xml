@@ -29,7 +29,6 @@
         android:scaleType="matrix"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
-        android:src="@mipmap/mapa_unicap"
 
         />
     <ScrollView
