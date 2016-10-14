@@ -16,8 +16,10 @@ import unicap.grafos.unicapmaps.view.ArestaView;
 
 public class GrafoController {
 
-    public GrafoController(){
+    private Grafo grafo;
 
+    public GrafoController(){
+        Grafo.getInstance();
     }
 
     public StringBuilder exibirArestas(Grafo grafo){
@@ -38,7 +40,40 @@ public class GrafoController {
     }
 
     public ArrayList<Aresta> buscaDijkstra(Vertice vInicial, Vertice vFinal){
+        /*int menorCusto;
+        int custoAcumulado = 0;
+        ArrayList<Aresta> caminho = new ArrayList<>();
+        Aresta menorAresta;
 
+
+
+        while(true) {
+            if(vInicial == vFinal){
+                return caminho;
+            }
+            ArrayList<Aresta> arestasAdjacentes;
+            arestasAdjacentes = vInicial.getArestas();
+            if(arestasAdjacentes != null){
+                menorCusto = arestasAdjacentes.get(0).getCusto();
+                int idAresta = arestasAdjacentes.get(0).getId();
+                for(Aresta atual: arestasAdjacentes){
+                    if(atual.getCusto() < menorCusto){
+                        menorCusto = atual.getCusto();
+                        idAresta = atual.getId();
+                    }
+                }
+                menorAresta = grafo.getAresta(idAresta);
+                vInicial = menorAresta.getB();
+                caminho.add(menorAresta);
+                custoAcumulado += menorCusto;
+            }else{
+                return null;
+            }
+        }
+
+
+
+        */
         return null;
     }
 

@@ -59,4 +59,11 @@ public class Vertice {
         this.coordenadas = coordenadas;
     }
 
+    public ArrayList<Vertice> getAdjacentes() {
+        return adjacentes;
+    }
+
+    public ArrayList<Aresta> getArestas() {
+        return arestas;
+    }
 }
