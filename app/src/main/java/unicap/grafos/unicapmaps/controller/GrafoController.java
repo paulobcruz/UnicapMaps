@@ -11,9 +11,15 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Stack;
 
+import java.util.ArrayList;
+
 import unicap.grafos.unicapmaps.model.Aresta;
 import unicap.grafos.unicapmaps.model.Grafo;
 import unicap.grafos.unicapmaps.model.Vertice;
+<<<<<<< HEAD
+=======
+import unicap.grafos.unicapmaps.view.ArestaView;
+>>>>>>> upstream/master
 
 /**
  * Created by Cais Automação on 06/10/2016. project UnicapMaps
@@ -55,4 +61,35 @@ public class GrafoController {
         }
             return null;
     }
+
+    public void showAresta(Grafo grafo, ArestaView arestaView, int idAresta) {
+        Aresta aresta = grafo.getAresta(idAresta);
+        arestaView.show(aresta);
+    }
+
+    public ArrayList<Aresta> buscaDijkstra(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
+    public ArrayList<Aresta> buscaLargura(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
+    public ArrayList<Aresta> buscaProfundidade(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
+    public ArrayList<Aresta> buscaEstrela(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
+    public ArrayList<Aresta> buscaGulosa(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
 }
