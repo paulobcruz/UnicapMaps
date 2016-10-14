@@ -3,8 +3,11 @@ package unicap.grafos.unicapmaps.controller;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+
 import unicap.grafos.unicapmaps.model.Aresta;
 import unicap.grafos.unicapmaps.model.Grafo;
+import unicap.grafos.unicapmaps.model.Vertice;
 import unicap.grafos.unicapmaps.view.ArestaView;
 
 /**
@@ -33,4 +36,30 @@ public class GrafoController {
         Aresta aresta = grafo.getAresta(idAresta);
         arestaView.show(aresta);
     }
+
+    public ArrayList<Aresta> buscaDijkstra(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
+    public ArrayList<Aresta> buscaLargura(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
+    public ArrayList<Aresta> buscaProfundidade(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
+    public ArrayList<Aresta> buscaEstrela(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
+    public ArrayList<Aresta> buscaGulosa(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
 }

@@ -89,9 +89,8 @@ public class GrafoDao {
     private void configArestas(){
         for(Aresta aresta: grafo.getArestas()){
             aresta.addCoord(0,0);
-            aresta.addCoord(10,20);
-            aresta.addCoord(50,20);
-            aresta.addCoord(50,100);
+            aresta.addCoord(500,500);
+            
         }
     }
 

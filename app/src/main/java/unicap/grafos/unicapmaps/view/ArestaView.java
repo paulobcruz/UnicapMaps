@@ -35,6 +35,11 @@ public class ArestaView extends View{
         super(context, attrs, defStyle);
     }
 
+    public void setOriginByView(View view){
+        this.setPivotX(view.getX());
+        this.setPivotY(view.getPivotY());
+    }
+
     private void setPaint() {
         paint.setColor(Color.BLUE);
         paint.setStrokeWidth(20);

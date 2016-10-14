@@ -5,8 +5,10 @@ package unicap.grafos.unicapmaps.view;
  */
 
 import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.view.animation.Transformation;
 import android.widget.FrameLayout;
 
         import android.content.Context;
@@ -16,13 +18,17 @@ import android.widget.FrameLayout;
         import android.view.ScaleGestureDetector;
         import android.view.View;
         import android.widget.FrameLayout;
+import android.widget.Toast;
 
 /**
  * Layout that provides pinch-zooming of content. This view should have exactly one child
  * view containing the content.
  */
-public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnScaleGestureListener {
+public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnScaleGestureListener, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener{
 
+
+
+    Context context;
     private enum Mode {
         NONE,
         DRAG,
@@ -41,37 +47,50 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
     private float startX = 0f;
     private float startY = 0f;
 
+
     // How much to translate the canvas
     private float dx = 0f;
     private float dy = 0f;
     private float prevDx = 0f;
     private float prevDy = 0f;
 
+    private GestureDetector gestureDetector;
 
     public ZoomLayout(Context context) {
+
         super(context);
+        this.context = context;
         init(context);
     }
 
     public ZoomLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         init(context);
     }
 
     public ZoomLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.context = context;
         init(context);
+    }
+
+    public float getScale() {
+        return scale;
     }
 
     private void init(Context context) {
         final ScaleGestureDetector scaleDetector = new ScaleGestureDetector(context, this);
+        gestureDetector = new GestureDetector(context, this);
+        gestureDetector.setOnDoubleTapListener(this);
 
         this.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:
-                        Log.i(TAG, "DOWN");
+                        Log.i(TAG, "DOWN" + "x = " + motionEvent.getX() + ", " + "y = " + motionEvent.getY());
                         if (scale > MIN_ZOOM) {
                             mode = Mode.DRAG;
                             startX = motionEvent.getX() - prevDx;
@@ -88,7 +107,7 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
                         mode = Mode.ZOOM;
                         break;
                     case MotionEvent.ACTION_POINTER_UP:
-                        mode = Mode.DRAG;
+                        mode = Mode.NONE;
                         break;
                     case MotionEvent.ACTION_UP:
                         Log.i(TAG, "UP");
@@ -98,6 +117,8 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
                         break;
                 }
                 scaleDetector.onTouchEvent(motionEvent);
+                gestureDetector.onTouchEvent(motionEvent);
+
 
                 if ((mode == Mode.DRAG && scale >= MIN_ZOOM) || mode == Mode.ZOOM) {
                     getParent().requestDisallowInterceptTouchEvent(true);
@@ -105,8 +126,7 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
                     float maxDy = (child().getHeight() - (child().getHeight() / scale))/ 2 * scale;
                     dx = Math.min(Math.max(dx, -maxDx), maxDx);
                     dy = Math.min(Math.max(dy, -maxDy), maxDy);
-                    Log.i(TAG, "Width: " + child().getWidth() + ", scale " + scale + ", dx " + dx
-                            + ", max " + maxDx);
+                    //Log.i(TAG, "Width: " + child().getWidth() + ", scale " + scale + ", dx " + dx + ", max " + maxDx);
                     applyScaleAndTranslation();
                 }
 
@@ -114,12 +134,41 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
             }
 
         });
+
+    }
+
+    public void ajustScaleByParent(View pai) {
+        int paiWidth = pai.getWidth();
+        int paiHeight = pai.getWidth();
+        int width = this.getWidth();
+        int height = this.getHeight();
+
+        if(paiHeight > height && paiWidth <= width){
+            scale = paiHeight/ height;
+            applyScaleAndTranslation();
+        } else if(paiWidth > width && paiHeight <= height){
+            scale = paiWidth/width;
+            applyScaleAndTranslation();
+        }
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        final int action = ev.getActionMasked();
+
+        if(action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_SCROLL){
+            return true;
+        }
+
+        return false;
+
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         return super.onTouchEvent(e);
     }
+
 
     // ScaleGestureDetector
     @Override
@@ -145,6 +194,8 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
     @Override
     public void onScaleEnd(ScaleGestureDetector scaleDetector) {
         Log.i(TAG, "onScaleEnd");
+        mode = Mode.NONE;
+        Log.i(TAG, Float.toString(scale));
     }
 
     private void applyScaleAndTranslation() {
@@ -158,13 +209,64 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
         return getChildAt(0);
     }
 
-    public void scaleView(View v, float startScale, float endScale) {
-        Animation anim = new ScaleAnimation(
-                1f, 1f, // Start and end values for the X axis scaling
-                startScale, endScale, // Start and end values for the Y axis scaling
-                Animation.RELATIVE_TO_SELF, 0f, // Pivot point of X scaling
-                Animation.RELATIVE_TO_SELF, 1f); // Pivot point of Y scaling
-        anim.setFillAfter(true); // Needed to keep the result of the animation
-        v.startAnimation(anim);
+
+    //Gesture detector
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+        Log.i(TAG, "SingleTapConfirmed");
+        return true;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent e) {
+        Log.i(TAG, "DoubleTap");
+        float oldScale = scale;
+        if(scale < MAX_ZOOM -2){
+            scale += 2;
+        } else{
+            scale = 1;
+        }
+        applyScaleAndTranslation();
+        return true;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent e) {
+        Log.i(TAG, "DoubleTapEvent");
+
+        return true;
+    }
+
+
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return true;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        return true;
     }
 }
