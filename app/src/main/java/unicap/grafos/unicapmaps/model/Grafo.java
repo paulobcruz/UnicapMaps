@@ -13,7 +13,7 @@ public class Grafo {
     private static Grafo grafo = null;
 
     private Grafo() {
-        vertices =  new ArrayList<>();
+        vertices = new ArrayList<>();
         arestas = new ArrayList<>();
     }
 
@@ -53,5 +53,9 @@ public class Grafo {
 
     public ArrayList<Aresta> getArestas() {
         return arestas;
+    }
+
+    public Aresta getAresta(int idAresta) {
+        return arestas.get(idAresta);
     }
 }

@@ -11,6 +11,7 @@ public class Vertice {
     private String descricao;
     private ArrayList<Aresta> arestas = null;
     private ArrayList<Vertice> adjacentes = null;
+    private Coordenadas coordenadas;
 
     public Vertice(int id) {
         this.id = id;
@@ -51,4 +52,17 @@ public class Vertice {
     public void addAresta(Aresta aresta) {
         arestas.add(aresta);
     }
+
+    public Coordenadas getCoordenadas() {
+        return coordenadas;
+    }
+
+    public void setCoordenadas(Coordenadas coordenadas) {
+        this.coordenadas = coordenadas;
+    }
+
+    public ArrayList<Vertice> getAdjacentes() {
+        return adjacentes;
+    }
+
 }

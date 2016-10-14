@@ -11,9 +11,12 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Stack;
 
+import java.util.ArrayList;
+
 import unicap.grafos.unicapmaps.model.Aresta;
 import unicap.grafos.unicapmaps.model.Grafo;
 import unicap.grafos.unicapmaps.model.Vertice;
+import unicap.grafos.unicapmaps.view.ArestaView;
 
 /**
  * Created by Cais Automação on 06/10/2016. project UnicapMaps
@@ -21,8 +24,10 @@ import unicap.grafos.unicapmaps.model.Vertice;
 
 public class GrafoController {
 
-    public GrafoController(){
+    private Grafo grafo;
 
+    public GrafoController(){
+        Grafo.getInstance();
     }
 
     public StringBuilder exibirArestas(Grafo grafo) {
@@ -55,4 +60,68 @@ public class GrafoController {
         }
             return null;
     }
+
+    public void showAresta(Grafo grafo, ArestaView arestaView, int idAresta) {
+        Aresta aresta = grafo.getAresta(idAresta);
+        arestaView.show(aresta);
+    }
+
+    public ArrayList<Aresta> buscaDijkstra(Vertice vInicial, Vertice vFinal){
+        /*int menorCusto;
+        int custoAcumulado = 0;
+        ArrayList<Aresta> caminho = new ArrayList<>();
+        Aresta menorAresta;
+
+
+
+        while(true) {
+            if(vInicial == vFinal){
+                return caminho;
+            }
+            ArrayList<Aresta> arestasAdjacentes;
+            arestasAdjacentes = vInicial.getArestas();
+            if(arestasAdjacentes != null){
+                menorCusto = arestasAdjacentes.get(0).getCusto();
+                int idAresta = arestasAdjacentes.get(0).getId();
+                for(Aresta atual: arestasAdjacentes){
+                    if(atual.getCusto() < menorCusto){
+                        menorCusto = atual.getCusto();
+                        idAresta = atual.getId();
+                    }
+                }
+                menorAresta = grafo.getAresta(idAresta);
+                vInicial = menorAresta.getB();
+                caminho.add(menorAresta);
+                custoAcumulado += menorCusto;
+            }else{
+                return null;
+            }
+        }
+
+
+
+        */
+        return null;
+    }
+
+    public ArrayList<Aresta> buscaLargura(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
+    public ArrayList<Aresta> buscaProfundidade(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
+    public ArrayList<Aresta> buscaEstrela(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
+    public ArrayList<Aresta> buscaGulosa(Vertice vInicial, Vertice vFinal){
+
+        return null;
+    }
+
 }
