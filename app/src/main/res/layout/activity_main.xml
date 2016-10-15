@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/bg2">
 
-<<<<<<< HEAD
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="300dp"
@@ -36,7 +36,7 @@
         android:scaleType="matrix"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
-=======
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,7 +50,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/imagem_mapa"
                     android:layout_alignLeft="@id/imagem_mapa">
->>>>>>> upstream/master
 
                 </RelativeLayout>
                 <unicap.grafos.unicapmaps.view.BotaoView

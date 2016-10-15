@@ -16,10 +16,8 @@ import java.util.ArrayList;
 import unicap.grafos.unicapmaps.model.Aresta;
 import unicap.grafos.unicapmaps.model.Grafo;
 import unicap.grafos.unicapmaps.model.Vertice;
-<<<<<<< HEAD
-=======
 import unicap.grafos.unicapmaps.view.ArestaView;
->>>>>>> upstream/master
+
 
 /**
  * Created by Cais Automação on 06/10/2016. project UnicapMaps
