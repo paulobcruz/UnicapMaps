@@ -18,7 +18,9 @@ public class Vertice {
         arestas = new ArrayList<>();
         adjacentes = new ArrayList<>();
     }
-
+    public ArrayList<Aresta> getArestas(){
+        return arestas;
+    }
     public void addAdjacente(Vertice novoAdj) {
         adjacentes.add(novoAdj);
     }
@@ -63,7 +65,4 @@ public class Vertice {
         return adjacentes;
     }
 
-    public ArrayList<Aresta> getArestas() {
-        return arestas;
-    }
 }

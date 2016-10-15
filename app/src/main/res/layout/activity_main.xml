@@ -41,7 +41,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/imagem_mapa"
                     android:layout_alignLeft="@id/imagem_mapa">
-
                 </RelativeLayout>
                 <unicap.grafos.unicapmaps.view.BotaoView
                     android:id="@+id/outronome"
