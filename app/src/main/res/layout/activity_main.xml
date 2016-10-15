@@ -28,7 +28,13 @@
                 android:layout_height="wrap_content"
                 android:background="@color/bg2">
 
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 34a9d3e1f71cff70fbe83296f3a563f015f3c71a
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="300dp"
@@ -36,7 +42,12 @@
         android:scaleType="matrix"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
+<<<<<<< HEAD
 
+=======
+=======
+>>>>>>> 82477fb9ed89d161b04e0d16cd226b855aa63a4c
+>>>>>>> 34a9d3e1f71cff70fbe83296f3a563f015f3c71a
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,6 +61,13 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/imagem_mapa"
                     android:layout_alignLeft="@id/imagem_mapa">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> upstream/master
+>>>>>>> 82477fb9ed89d161b04e0d16cd226b855aa63a4c
+>>>>>>> 34a9d3e1f71cff70fbe83296f3a563f015f3c71a
 
                 </RelativeLayout>
                 <unicap.grafos.unicapmaps.view.BotaoView

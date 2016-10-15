@@ -16,8 +16,19 @@ import java.util.ArrayList;
 import unicap.grafos.unicapmaps.model.Aresta;
 import unicap.grafos.unicapmaps.model.Grafo;
 import unicap.grafos.unicapmaps.model.Vertice;
+<<<<<<< HEAD
 import unicap.grafos.unicapmaps.view.ArestaView;
 
+=======
+<<<<<<< HEAD
+import unicap.grafos.unicapmaps.view.ArestaView;
+=======
+<<<<<<< HEAD
+=======
+import unicap.grafos.unicapmaps.view.ArestaView;
+>>>>>>> upstream/master
+>>>>>>> 82477fb9ed89d161b04e0d16cd226b855aa63a4c
+>>>>>>> 34a9d3e1f71cff70fbe83296f3a563f015f3c71a
 
 /**
  * Created by Cais Automação on 06/10/2016. project UnicapMaps
@@ -25,8 +36,10 @@ import unicap.grafos.unicapmaps.view.ArestaView;
 
 public class GrafoController {
 
-    public GrafoController(){
+    private Grafo grafo;
 
+    public GrafoController(){
+        Grafo.getInstance();
     }
 
     public StringBuilder exibirArestas(Grafo grafo) {
@@ -66,7 +79,40 @@ public class GrafoController {
     }
 
     public ArrayList<Aresta> buscaDijkstra(Vertice vInicial, Vertice vFinal){
+        /*int menorCusto;
+        int custoAcumulado = 0;
+        ArrayList<Aresta> caminho = new ArrayList<>();
+        Aresta menorAresta;
 
+
+
+        while(true) {
+            if(vInicial == vFinal){
+                return caminho;
+            }
+            ArrayList<Aresta> arestasAdjacentes;
+            arestasAdjacentes = vInicial.getArestas();
+            if(arestasAdjacentes != null){
+                menorCusto = arestasAdjacentes.get(0).getCusto();
+                int idAresta = arestasAdjacentes.get(0).getId();
+                for(Aresta atual: arestasAdjacentes){
+                    if(atual.getCusto() < menorCusto){
+                        menorCusto = atual.getCusto();
+                        idAresta = atual.getId();
+                    }
+                }
+                menorAresta = grafo.getAresta(idAresta);
+                vInicial = menorAresta.getB();
+                caminho.add(menorAresta);
+                custoAcumulado += menorCusto;
+            }else{
+                return null;
+            }
+        }
+
+
+
+        */
         return null;
     }
 
