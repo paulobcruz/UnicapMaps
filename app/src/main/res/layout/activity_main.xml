@@ -31,7 +31,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/mapa_unicap"
+
                     android:scaleType="fitCenter"
                     android:id="@+id/imagem_mapa"
                     />
