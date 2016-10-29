@@ -39,6 +39,8 @@ public class Main extends AppCompatActivity {
         context = getApplicationContext();
 
         // TUDO DAQUI PRA BAIXO AINDA É TESTE
+
+        /* TESTES DE GABRIEL*/
         GrafoController grafoController = new GrafoController();
         Vertice a = grafo.getVertice(0);
         Vertice b = grafo.getVertice(2);
@@ -47,10 +49,10 @@ public class Main extends AppCompatActivity {
         caminho = grafoController.BuscaEmProfundidade(a, b);
         StringBuilder caminhoString = grafoController.exibirArestas(grafo, caminho);
         Toast.makeText(context, caminhoString, Toast.LENGTH_LONG).show();
+        /*FIM DOS TESTES DE GABRIEL*/
 
 
-
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ArestaView arestaView = (ArestaView) inflater.inflate(R.layout.aresta_view, null);
         //arestaView.setOriginByView(findViewById(R.id.imagem_mapa));
 
@@ -58,8 +60,6 @@ public class Main extends AppCompatActivity {
         insertPoint.addView(arestaView);
 
         grafoController.showAresta(grafo, arestaView, 0);
-
-
         mapaViewPort = (ZoomLayout) findViewById(R.id.mapaViewPort);
         mapaViewPort.ajustScaleByParent(insertPoint);
         //mapaViewPort.removeView(mapaConteudo);
