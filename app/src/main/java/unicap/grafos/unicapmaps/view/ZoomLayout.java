@@ -36,8 +36,8 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
     }
 
     private static final String TAG = "ZoomLayout";
-    private static final float MIN_ZOOM = 1.0f;
-    private static final float MAX_ZOOM = 4.0f;
+    private static float MIN_ZOOM = 1.0f;
+    private static float MAX_ZOOM = 4.0f;
 
     private Mode mode = Mode.NONE;
     private float scale = 1.0f;
@@ -152,7 +152,13 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
         }
     }
 
-    @Override
+    public void ajustScale(float escalaInicial){
+        MIN_ZOOM = escalaInicial;
+        scale = MIN_ZOOM;
+        applyScaleAndTranslation();;
+    }
+
+    /*@Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         final int action = ev.getActionMasked();
 
@@ -162,7 +168,7 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
 
         return false;
 
-    }
+    }*/
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
@@ -225,7 +231,7 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
         if(scale < MAX_ZOOM -2){
             scale += 2;
         } else{
-            scale = 1;
+            scale = MIN_ZOOM;
         }
         applyScaleAndTranslation();
         return true;

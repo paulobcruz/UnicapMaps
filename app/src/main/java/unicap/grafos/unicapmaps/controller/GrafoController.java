@@ -14,6 +14,7 @@ import java.util.Stack;
 import java.util.ArrayList;
 
 import unicap.grafos.unicapmaps.model.Aresta;
+import unicap.grafos.unicapmaps.model.Coordenadas;
 import unicap.grafos.unicapmaps.model.Grafo;
 import unicap.grafos.unicapmaps.model.Vertice;
 import unicap.grafos.unicapmaps.view.ArestaView;
@@ -122,9 +123,37 @@ public class GrafoController {
         return caminho;
     }//Fim do método
 
-    public void showAresta(Grafo grafo, ArestaView arestaView, int idAresta) {
-        Aresta aresta = grafo.getAresta(idAresta);
-        arestaView.show(aresta);
+    public void desenharCaminho(Grafo grafo, ArestaView arestaView, ArrayList<Integer> idsVertices, float escala) {
+        ArrayList<ArrayList<Coordenadas>> coordenadas = new ArrayList<>();
+        ArrayList<Aresta> arestas = new ArrayList<>();
+        int i;
+        for(i = 0; i < idsVertices.size() - 1; i++){
+            Vertice vA = grafo.getVertice(idsVertices.get(i));
+            Vertice vB = grafo.getVertice(idsVertices.get(i+1));
+            arestas.add(getArestaFromVertices(vA,vB));
+        }
+        for(Aresta aresta: arestas){
+            coordenadas.add(aresta.getCoordTrajeto());
+        }
+        arestaView.show(coordenadas, escala);
+    }
+
+    Aresta getArestaFromVertices(Vertice A, Vertice B){
+        Aresta aresta = null;
+        ArrayList<Vertice> adjacentes = A.getAdjacentes();
+        if(adjacentes.contains(B)){
+            ArrayList<Aresta> arestas = A.getArestas();
+            for(Aresta atual: arestas){
+                if(atual.getB() == B){
+                    aresta = atual;
+                    break;
+                }
+            }
+        } else{
+            //exceção
+            return null;
+        }
+        return aresta;
     }
 
     public ArrayList<Aresta> buscaDijkstra(Vertice vInicial, Vertice vFinal){

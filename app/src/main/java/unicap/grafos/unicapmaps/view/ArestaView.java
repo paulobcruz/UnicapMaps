@@ -23,6 +23,7 @@ public class ArestaView extends View{
 
     Paint paint = new Paint();
     Path path = new Path();
+    int density = 0;
 
     public ArestaView(Context context){
         super(context);
@@ -49,21 +50,26 @@ public class ArestaView extends View{
         paint.setAntiAlias(true);
     }
 
+    public void setDensity(int d){
+        density = d;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        if(density != 0) canvas.setDensity(density);
         canvas.drawPath(path, paint);
     }
 
-    public void show(Aresta aresta) {
-        ArrayList<Coordenadas> coords = aresta.getCoordTrajeto();
-
+    public void show(ArrayList<ArrayList<Coordenadas>> coords, float escala) {
         setPaint();
         path.reset();
-        path.moveTo(coords.get(0).getX(), coords.get(0).getY());
-        for(Coordenadas ponto: coords){
-            path.lineTo(ponto.getX(), ponto.getY());
+        path.moveTo(coords.get(0).get(0).getX(), coords.get(0).get(0).getY()); //pega a primeira coordenada do primeiro array
+
+        for(ArrayList<Coordenadas> lista: coords){
+            for(Coordenadas ponto: lista){
+                path.lineTo(ponto.getX()*escala, ponto.getY()*escala);
+            }
         }
     }
 }
