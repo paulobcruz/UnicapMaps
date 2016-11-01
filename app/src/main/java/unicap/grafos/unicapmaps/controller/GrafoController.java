@@ -5,7 +5,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
+import android.widget.ImageView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayDeque;
@@ -19,6 +22,7 @@ import unicap.grafos.unicapmaps.model.Aresta;
 import unicap.grafos.unicapmaps.model.Coordenadas;
 import unicap.grafos.unicapmaps.model.Grafo;
 import unicap.grafos.unicapmaps.model.Vertice;
+import unicap.grafos.unicapmaps.view.ArestaPathView;
 import unicap.grafos.unicapmaps.view.ArestaView;
 
 import unicap.grafos.unicapmaps.view.ArestaView;
@@ -36,7 +40,7 @@ public class GrafoController {
         grafo = Grafo.getInstance();
     }
 
-    public StringBuilder exibirArestas(Grafo grafo, ArrayList<Aresta> arestas) {
+    public StringBuilder exibirArestas( ArrayList<Aresta> arestas) {
         StringBuilder lista = new StringBuilder();
         if(arestas == null) {
             arestas = grafo.getArestas();
@@ -125,7 +129,7 @@ public class GrafoController {
         return caminho;
     }//Fim do método
 
-    public ArrayList<ArrayList<Coordenadas>> buscarCoordenadas(Grafo grafo, ArrayList<Integer> idsVertices) {
+    public ArrayList<ArrayList<Coordenadas>> buscarCoordenadas(ArrayList<Integer> idsVertices) {
         ArrayList<ArrayList<Coordenadas>> coordenadas = new ArrayList<>();
         ArrayList<Aresta> arestas = new ArrayList<>();
         int i;
@@ -157,6 +161,17 @@ public class GrafoController {
             return null;
         }
         return aresta;
+    }
+
+    public void logArestas(){
+        String TAG = "ARESTA: ";
+        ArrayList<Aresta> arestas = grafo.getArestas();
+        for(Aresta atual: arestas){
+            //if(atual.getA() != atual.getB()) {
+                Log.i(TAG, "id:"+ atual.getId() + " (" + atual.getA().getId() + " -> " + atual.getB().getId() +")");
+            //}
+        }
+        TAG.getClass();
     }
 
     public ArrayList<Vertice> buscaDijkstra(Vertice vInicial, Vertice vFinal){
@@ -215,5 +230,26 @@ public class GrafoController {
     public ArrayList<Vertice> buscaGulosa(Vertice vInicial, Vertice vFinal){
 
         return null;
+    }
+
+    public void exibirGrafoCompleto(ImageView arestaView, ArestaPathView pathView) {
+        ArrayList<ArrayList<Coordenadas>> coordenadas = new ArrayList<>();
+        ArrayList<Aresta> arestas = grafo.getArestas();
+        ArrayList<ArrayList<Coordenadas>> coordTemp = new ArrayList<>();
+        int cor;
+        for(Aresta atual : arestas){
+            cor = Color.BLUE;
+            coordenadas.add(atual.getCoordTrajeto());
+            pathView.addPath(coordenadas, cor);
+            coordenadas.clear();
+        }
+        for(Aresta atual : arestas){
+            cor = Color.RED;
+            if(atual.getA() == atual.getB()){
+                pathView.addCircle(atual.getA().getCoordenadas().getX(), atual.getA().getCoordenadas().getY(), cor);
+            }
+        }
+
+        arestaView.setImageBitmap(pathView.getBitmap());
     }
 }

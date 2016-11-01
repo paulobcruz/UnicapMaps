@@ -38,10 +38,10 @@ public class ArestaPathView {
     }
 
     private void setPaint() {
-        paint.setStrokeWidth(12);
+        paint.setStrokeWidth(8);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setAlpha(127);
+        paint.setAlpha(255);
         paint.setAntiAlias(true);
     }
 
@@ -49,7 +49,7 @@ public class ArestaPathView {
 
         // Line color
         paint.setColor(cor);
-        paint.setAlpha(127);
+        paint.setAlpha(90);
 
         path.reset();
         path.moveTo(coords.get(0).get(0).getX()*escala, coords.get(0).get(0).getY()*escala); //pega a primeira coordenada do primeiro array
@@ -61,6 +61,13 @@ public class ArestaPathView {
         }
 
         canvas.drawPath(path, paint);
+    }
+
+    public void addCircle(int x, int y, int cor){
+        // Line color
+        paint.setColor(cor);
+        int raio = 5;
+        canvas.drawCircle(x*escala, y*escala, raio,paint);
     }
 
     public Bitmap getBitmap(){

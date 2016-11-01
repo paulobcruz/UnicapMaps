@@ -14,12 +14,14 @@ public class GrafoDao {
     private int matrizAdjacencias[][];
     private int coordenadas[][];
     private int grauMatriz;
+    private int coordenadasComplementares[][][];
 
 
     public GrafoDao() {
         matrizAdjacencias = Dados.getMatrizAdjacencias();
         coordenadas = Dados.getCoordenadasVertices();
         grauMatriz = matrizAdjacencias[0].length;
+        coordenadasComplementares = Dados.getCoordenadasComplementares();
     }
 
     public void montarGrafo(){
@@ -71,18 +73,25 @@ public class GrafoDao {
     }
 
     private void configArestas(){
+        int i = 0;
+        int k, tamanho;
+
         for(Aresta aresta: grafo.getArestas()){
             Coordenadas p;
             p = aresta.getA().getCoordenadas();
             aresta.addCoord(p.getX(), p.getY());
             /*
-
             inserir aqui as coordenadas meio
-            if(
-
             */
+            tamanho = coordenadasComplementares[i].length;
+            for(k = 0; k < tamanho; k++) {
+                aresta.addCoord(coordenadasComplementares[i][k][0], coordenadasComplementares[i][k][1]);
+            }
+
+
             p = aresta.getB().getCoordenadas();
             aresta.addCoord(p.getX(), p.getY());
+            i++;
         }
     }
 

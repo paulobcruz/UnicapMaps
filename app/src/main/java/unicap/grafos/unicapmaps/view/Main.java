@@ -50,7 +50,7 @@ public class Main extends AppCompatActivity {
     int windowHeight;
     int mapaWidth;
     int mapaHeight;
-    int larguraOriginal = 500;
+    int larguraOriginal = 600;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +59,7 @@ public class Main extends AppCompatActivity {
         grafoController = new GrafoController();
 
         // TUDO DAQUI PRA BAIXO AINDA É TESTE
+        grafoController.logArestas();
 
         RelativeLayout mainActivity = (RelativeLayout) findViewById(R.id.root);
         String larguraMapa = Integer.toString(mainActivity.getWidth());
@@ -70,7 +71,7 @@ public class Main extends AppCompatActivity {
         ArrayList<Aresta> caminho;
 
         caminho = grafoController.BuscaEmProfundidade(a, b);
-        StringBuilder caminhoString = grafoController.exibirArestas(grafo, caminho);
+        StringBuilder caminhoString = grafoController.exibirArestas(caminho);
         //Toast.makeText(context, caminhoString, Toast.LENGTH_LONG).show();
         /*FIM DOS TESTES DE GABRIEL*/
 
@@ -96,30 +97,10 @@ public class Main extends AppCompatActivity {
         if(mapaWidth > larguraOriginal){
             escalaInicial = mapaWidth*1.0f/larguraOriginal;
         }
-        ArestaPathView pathView = new ArestaPathView(mapaWidth, mapaHeight, 2);
-
-
-        ArrayList<Integer> idsVertices= new ArrayList<>();
-        idsVertices.add(0);
-        idsVertices.add(1);
-        idsVertices.add(2);
-        idsVertices.add(7);
-        idsVertices.add(15);
 
         ImageView arestaView = (ImageView) findViewById( R.id.arestaConteiner);
-        ArrayList<ArrayList<Coordenadas>> coordenadas;
-
-        coordenadas = grafoController.buscarCoordenadas(grafo, idsVertices);
-        pathView.addPath(coordenadas, Color.BLUE);
-
-        idsVertices.clear();
-        idsVertices.add(4);
-        idsVertices.add(8);
-
-        coordenadas = grafoController.buscarCoordenadas(grafo, idsVertices);
-        pathView.addPath(coordenadas, Color.RED);
-
-        arestaView.setImageBitmap(pathView.getBitmap());
+        ArestaPathView pathView = new ArestaPathView(mapaWidth, mapaHeight, escalaInicial);
+        grafoController.exibirGrafoCompleto(arestaView, pathView);
 
 
 
