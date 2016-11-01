@@ -18,27 +18,12 @@ import unicap.grafos.unicapmaps.dao.GrafoDao;
 
 public class SplashScreen extends AppCompatActivity {
 
-    float escala;
-    int windowWidth;
-    int windowHeight;
-    int imageWidth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         GrafoDao dao = new GrafoDao();
         dao.montarGrafo();
-
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        windowWidth = size.x;
-        windowHeight = size.y;
-
-        Drawable drawable = getResources().getDrawable(R.drawable.mapa_unicap);
-        imageWidth = drawable.getIntrinsicWidth();
-        escala = imageWidth*1.0f/windowWidth;
 
 
         /* New Handler to start the Menu-Activity
@@ -50,9 +35,6 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
                 Intent mainIntent = new Intent(SplashScreen.this, Main.class);
-                mainIntent.putExtra("escala", escala);
-                mainIntent.putExtra("w_width", windowWidth);
-                mainIntent.putExtra("w_height", windowHeight);
 
                 startActivity(mainIntent);
                 finish();

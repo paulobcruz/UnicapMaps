@@ -3,6 +3,8 @@ package unicap.grafos.unicapmaps.controller;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Build;
 
 import java.lang.reflect.Array;
@@ -123,7 +125,7 @@ public class GrafoController {
         return caminho;
     }//Fim do método
 
-    public void desenharCaminho(Grafo grafo, ArestaView arestaView, ArrayList<Integer> idsVertices, float escala) {
+    public ArrayList<ArrayList<Coordenadas>> buscarCoordenadas(Grafo grafo, ArrayList<Integer> idsVertices) {
         ArrayList<ArrayList<Coordenadas>> coordenadas = new ArrayList<>();
         ArrayList<Aresta> arestas = new ArrayList<>();
         int i;
@@ -135,7 +137,8 @@ public class GrafoController {
         for(Aresta aresta: arestas){
             coordenadas.add(aresta.getCoordTrajeto());
         }
-        arestaView.show(coordenadas, escala);
+        return coordenadas;
+
     }
 
     Aresta getArestaFromVertices(Vertice A, Vertice B){
@@ -156,7 +159,7 @@ public class GrafoController {
         return aresta;
     }
 
-    public ArrayList<Aresta> buscaDijkstra(Vertice vInicial, Vertice vFinal){
+    public ArrayList<Vertice> buscaDijkstra(Vertice vInicial, Vertice vFinal){
         /*int menorCusto;
         int custoAcumulado = 0;
         ArrayList<Aresta> caminho = new ArrayList<>();
@@ -194,24 +197,23 @@ public class GrafoController {
         return null;
     }
 
-    public ArrayList<Aresta> buscaLargura(Vertice vInicial, Vertice vFinal){
+    public ArrayList<Vertice> buscaLargura(Vertice vInicial, Vertice vFinal){
 
         return null;
     }
 
-    public ArrayList<Aresta> buscaProfundidade(Vertice vInicial, Vertice vFinal){
+    public ArrayList<Vertice> buscaProfundidade(Vertice vInicial, Vertice vFinal){
 
         return null;
     }
 
-    public ArrayList<Aresta> buscaEstrela(Vertice vInicial, Vertice vFinal){
+    public ArrayList<Vertice> buscaEstrela(Vertice vInicial, Vertice vFinal){
 
         return null;
     }
 
-    public ArrayList<Aresta> buscaGulosa(Vertice vInicial, Vertice vFinal){
+    public ArrayList<Vertice> buscaGulosa(Vertice vInicial, Vertice vFinal){
 
         return null;
     }
-
 }

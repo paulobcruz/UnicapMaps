@@ -30,14 +30,15 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/mapa_unicap"
                     android:id="@+id/imagem_mapa"
-                    android:adjustViewBounds="true" />
-                <RelativeLayout
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    />
+                <ImageView
                     android:id="@+id/arestaConteiner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     >
-                </RelativeLayout>
+                </ImageView>
             </RelativeLayout>
         </ScrollView>
     </HorizontalScrollView>

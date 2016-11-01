@@ -2,12 +2,16 @@ package unicap.grafos.unicapmaps.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ButtonBarLayout;
 import android.util.Log;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -29,6 +33,7 @@ import java.util.ArrayList;
 import unicap.grafos.unicapmaps.R;
 import unicap.grafos.unicapmaps.controller.GrafoController;
 import unicap.grafos.unicapmaps.model.Aresta;
+import unicap.grafos.unicapmaps.model.Coordenadas;
 import unicap.grafos.unicapmaps.model.Grafo;
 import unicap.grafos.unicapmaps.model.Vertice;
 
@@ -45,16 +50,13 @@ public class Main extends AppCompatActivity {
     int windowHeight;
     int mapaWidth;
     int mapaHeight;
+    int larguraOriginal = 500;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         grafoController = new GrafoController();
-        Intent intent = getIntent();
-        escalaArestas = intent.getFloatExtra("escala", 1);
-        windowWidth = intent.getIntExtra("w_width", 0);
-        windowHeight = intent.getIntExtra("w_height", 0);
 
         // TUDO DAQUI PRA BAIXO AINDA É TESTE
 
@@ -72,28 +74,6 @@ public class Main extends AppCompatActivity {
         //Toast.makeText(context, caminhoString, Toast.LENGTH_LONG).show();
         /*FIM DOS TESTES DE GABRIEL*/
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-
-        View view = inflater.inflate( R.layout.aresta_view, null );
-        ArestaView arestaView = (ArestaView) view.findViewById( R.id.aresta_view );
-        RelativeLayout arestaContainer = (RelativeLayout) findViewById(R.id.arestaConteiner);
-        arestaContainer.addView(arestaView);
-
-
-
-        ArrayList<Integer> idsArestas= new ArrayList<>();
-        idsArestas.add(0);
-        idsArestas.add(1);
-        idsArestas.add(2);
-        idsArestas.add(7);
-        idsArestas.add(15);
-
-
-        grafoController.desenharCaminho(grafo, arestaView, idsArestas, escalaArestas);
-
-
-        //mapaViewPort.removeView(mapaConteudo);
-        //mapaViewPort.addFilho(mapaConteudo);
 
 
     }
@@ -102,26 +82,49 @@ public class Main extends AppCompatActivity {
         // TODO Auto-generated method stub
         super.onWindowFocusChanged(hasFocus);
 
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        windowWidth = size.x;
+        windowHeight = size.y;
+
+
         ImageView img = (ImageView) findViewById(R.id.imagem_mapa);
         mapaHeight = img.getHeight();
         mapaWidth = img.getWidth();
 
-
-        if(mapaHeight > windowHeight){
-            escalaInicial = windowHeight*1.0f/mapaHeight;
-        } else if(mapaWidth < windowWidth){
-            escalaInicial = windowWidth*1.0f/mapaWidth;
+        if(mapaWidth > larguraOriginal){
+            escalaInicial = mapaWidth*1.0f/larguraOriginal;
         }
-
-        findViewById(R.id.arestaConteiner).setLayoutParams(new android.widget.RelativeLayout.LayoutParams(mapaWidth, mapaHeight));
-
+        ArestaPathView pathView = new ArestaPathView(mapaWidth, mapaHeight, 2);
 
 
+        ArrayList<Integer> idsVertices= new ArrayList<>();
+        idsVertices.add(0);
+        idsVertices.add(1);
+        idsVertices.add(2);
+        idsVertices.add(7);
+        idsVertices.add(15);
+
+        ImageView arestaView = (ImageView) findViewById( R.id.arestaConteiner);
+        ArrayList<ArrayList<Coordenadas>> coordenadas;
+
+        coordenadas = grafoController.buscarCoordenadas(grafo, idsVertices);
+        pathView.addPath(coordenadas, Color.BLUE);
+
+        idsVertices.clear();
+        idsVertices.add(4);
+        idsVertices.add(8);
+
+        coordenadas = grafoController.buscarCoordenadas(grafo, idsVertices);
+        pathView.addPath(coordenadas, Color.RED);
+
+        arestaView.setImageBitmap(pathView.getBitmap());
 
 
 
-        //img.setScaleX(escalaInicial);
-        //img.setScaleY(escalaInicial);
+        //findViewById(R.id.arestaConteiner).setLayoutParams(new android.widget.RelativeLayout.LayoutParams(mapaWidth, mapaHeight));
+
         /*mapaViewPort = (ZoomLayout) findViewById(R.id.mapaViewPort);
         mapaViewPort.ajustScale(escalaInicial);*/
 
