@@ -38,6 +38,7 @@ public class Main extends AppCompatActivity {
     Context context;
     ZoomLayout mapaViewPort;
     ImageView jpgMapa;
+    GrafoController grafoController;
     float escalaInicial;
     float escalaArestas;
     int windowWidth;
@@ -49,23 +50,11 @@ public class Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
+        grafoController = new GrafoController();
         Intent intent = getIntent();
         escalaArestas = intent.getFloatExtra("escala", 1);
         windowWidth = intent.getIntExtra("w_width", 0);
         windowHeight = intent.getIntExtra("w_height", 0);
-        intent = null;
-
-
-        if(windowWidth == 0 || windowHeight == 0){
-            Toast.makeText(context, "Erro ao adquirir informacoes da tela", Toast.LENGTH_LONG).show();
-            finish();
-        }
-        ImageView mapa = (ImageView) findViewById(R.id.imagem_mapa);
-
-
-        Toast.makeText(context, ""+mapa.getMeasuredHeight(), Toast.LENGTH_LONG).show();
-
-
 
         // TUDO DAQUI PRA BAIXO AINDA É TESTE
 
@@ -74,7 +63,6 @@ public class Main extends AppCompatActivity {
 //        Toast.makeText(context, ""+escala, Toast.LENGTH_LONG).show();
 
         /* TESTES DE GABRIEL*/
-        GrafoController grafoController = new GrafoController();
         Vertice a = grafo.getVertice(0);
         Vertice b = grafo.getVertice(2);
         ArrayList<Aresta> caminho;
@@ -84,13 +72,14 @@ public class Main extends AppCompatActivity {
         //Toast.makeText(context, caminhoString, Toast.LENGTH_LONG).show();
         /*FIM DOS TESTES DE GABRIEL*/
 
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ArestaView arestaView = (ArestaView) inflater.inflate(R.layout.aresta_view, null);
-        //arestaView.setOriginByView(findViewById(R.id.imagem_mapa));
+        View view = inflater.inflate( R.layout.aresta_view, null );
+        ArestaView arestaView = (ArestaView) view.findViewById( R.id.aresta_view );
+        RelativeLayout arestaContainer = (RelativeLayout) findViewById(R.id.arestaConteiner);
+        arestaContainer.addView(arestaView);
 
-        ViewGroup insertPoint = (ViewGroup) findViewById(R.id.arestaConteiner);
-        insertPoint.addView(arestaView);
+
 
         ArrayList<Integer> idsArestas= new ArrayList<>();
         idsArestas.add(0);
@@ -99,13 +88,13 @@ public class Main extends AppCompatActivity {
         idsArestas.add(7);
         idsArestas.add(15);
 
+
         grafoController.desenharCaminho(grafo, arestaView, idsArestas, escalaArestas);
+
 
         //mapaViewPort.removeView(mapaConteudo);
         //mapaViewPort.addFilho(mapaConteudo);
 
-
-        GrafoController gController = new GrafoController();
 
     }
 
@@ -123,6 +112,13 @@ public class Main extends AppCompatActivity {
         } else if(mapaWidth < windowWidth){
             escalaInicial = windowWidth*1.0f/mapaWidth;
         }
+
+        findViewById(R.id.arestaConteiner).setLayoutParams(new android.widget.RelativeLayout.LayoutParams(mapaWidth, mapaHeight));
+
+
+
+
+
 
         //img.setScaleX(escalaInicial);
         //img.setScaleY(escalaInicial);
