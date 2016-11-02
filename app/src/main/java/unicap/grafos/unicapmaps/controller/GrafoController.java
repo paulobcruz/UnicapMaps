@@ -1,32 +1,19 @@
 package unicap.grafos.unicapmaps.controller;
 
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.os.Build;
 import android.util.Log;
 import android.widget.ImageView;
 
-import java.lang.reflect.Array;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Queue;
 import java.util.Stack;
-
-import java.util.ArrayList;
 
 import unicap.grafos.unicapmaps.model.Aresta;
 import unicap.grafos.unicapmaps.model.Coordenadas;
 import unicap.grafos.unicapmaps.model.Grafo;
 import unicap.grafos.unicapmaps.model.Vertice;
 import unicap.grafos.unicapmaps.view.ArestaPathView;
-import unicap.grafos.unicapmaps.view.ArestaView;
 
-import unicap.grafos.unicapmaps.view.ArestaView;
-import unicap.grafos.unicapmaps.view.ArestaView;
 /**
  * Created by Cais Automação on 06/10/2016. project UnicapMaps
  */
@@ -145,7 +132,7 @@ public class GrafoController {
 
     }
 
-    Aresta getArestaFromVertices(Vertice A, Vertice B){
+    public Aresta getArestaFromVertices(Vertice A, Vertice B){
         Aresta aresta = null;
         ArrayList<Vertice> adjacentes = A.getAdjacentes();
         if(adjacentes.contains(B)){
@@ -249,6 +236,24 @@ public class GrafoController {
                 pathView.addCircle(atual.getA().getCoordenadas().getX(), atual.getA().getCoordenadas().getY(), cor);
             }
         }
+
+        arestaView.setImageBitmap(pathView.getBitmap());
+    }
+
+    public void exibirCaminho(ImageView arestaView, ArestaPathView pathView, ArrayList<Aresta> arestas, int cor) {
+        ArrayList<ArrayList<Coordenadas>> coordenadas = new ArrayList<>();
+        Vertice vInicial = arestas.get(0).getA();
+        Vertice vFinal = arestas.get(arestas.size()-1).getB();
+
+        for(Aresta atual : arestas){
+            coordenadas.add(atual.getCoordTrajeto());
+        }
+        pathView.addPath(coordenadas, cor);
+
+
+        pathView.addCircle(vInicial.getCoordenadas().getX(), vInicial.getCoordenadas().getY(), Color.BLACK);
+        pathView.addCircle(vFinal.getCoordenadas().getX(), vFinal.getCoordenadas().getY(), Color.BLUE);
+
 
         arestaView.setImageBitmap(pathView.getBitmap());
     }

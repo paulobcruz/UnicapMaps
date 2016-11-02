@@ -1,4 +1,4 @@
-package unicap.grafos.unicapmaps.view;
+package unicap.grafos.unicapmaps.util;
 
 /**
  * Created by Uirá Veríssimo on 09/10/2016.
@@ -25,8 +25,6 @@ import android.widget.Toast;
  * view containing the content.
  */
 public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnScaleGestureListener, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener{
-
-
 
     Context context;
     private enum Mode {
@@ -90,7 +88,7 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:
-                        Log.i(TAG, "DOWN" + "x = " + motionEvent.getX() + ", " + "y = " + motionEvent.getY());
+                        //Log.i(TAG, "DOWN" + "x = " + motionEvent.getX() + ", " + "y = " + motionEvent.getY());
                         if (scale > MIN_ZOOM) {
                             mode = Mode.DRAG;
                             startX = motionEvent.getX() - prevDx;
@@ -98,10 +96,13 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
+
                         if (mode == Mode.DRAG) {
                             dx = motionEvent.getX() - startX;
                             dy = motionEvent.getY() - startY;
+                            Log.i(TAG, "DRAG " + "x = " + dx + ", " + "y = " + dy);
                         }
+
                         break;
                     case MotionEvent.ACTION_POINTER_DOWN:
                         mode = Mode.ZOOM;
@@ -110,7 +111,7 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
                         mode = Mode.NONE;
                         break;
                     case MotionEvent.ACTION_UP:
-                        Log.i(TAG, "UP");
+                        //Log.i(TAG, "UP");
                         mode = Mode.ZOOM;
                         prevDx = dx;
                         prevDy = dy;
@@ -126,7 +127,7 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
                     float maxDy = (child().getHeight() - (child().getHeight() / scale))/ 2 * scale;
                     dx = Math.min(Math.max(dx, -maxDx), maxDx);
                     dy = Math.min(Math.max(dy, -maxDy), maxDy);
-                    //Log.i(TAG, "Width: " + child().getWidth() + ", scale " + scale + ", dx " + dx + ", max " + maxDx);
+                    //Log.i(TAG, "Width: " + child().getWidth() + ", scale " + scale + ", dx " + dx + ", max " + maxDx + ", prevDx " + prevDx);
                     applyScaleAndTranslation();
                 }
 
@@ -137,25 +138,17 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
 
     }
 
-    public void ajustScaleByParent(View pai) {
-        int paiWidth = pai.getWidth();
-        int paiHeight = pai.getWidth();
-        int width = this.getWidth();
-        int height = this.getHeight();
 
-        if(paiHeight > height && paiWidth <= width){
-            scale = paiHeight/ height;
-            applyScaleAndTranslation();
-        } else if(paiWidth > width && paiHeight <= height){
-            scale = paiWidth/width;
-            applyScaleAndTranslation();
-        }
-    }
+    public void ajustScale(){
+        float escalaInicial;
 
-    public void ajustScale(float escalaInicial){
-        MIN_ZOOM = escalaInicial;
-        scale = MIN_ZOOM;
-        applyScaleAndTranslation();;
+        int alturaViewPort = getHeight();
+        int alturaChild = child().getHeight();
+
+        escalaInicial = 1.0f*alturaViewPort/alturaChild;
+
+        scale = escalaInicial;
+        applyScaleAndTranslation();
     }
 
     /*@Override
@@ -164,6 +157,9 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
 
         if(action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_SCROLL){
             return true;
+        }
+        if(action == MotionEvent.ACTION_POINTER_UP){
+            return false;
         }
 
         return false;
@@ -179,14 +175,14 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
     // ScaleGestureDetector
     @Override
     public boolean onScaleBegin(ScaleGestureDetector scaleDetector) {
-        Log.i(TAG, "onScaleBegin");
+        //Log.i(TAG, "onScaleBegin");
         return true;
     }
 
     @Override
     public boolean onScale(ScaleGestureDetector scaleDetector) {
         float scaleFactor = scaleDetector.getScaleFactor();
-        Log.i(TAG, "onScale" + scaleFactor);
+        //Log.i(TAG, "onScale" + scaleFactor);
         if (lastScaleFactor == 0 || (Math.signum(scaleFactor) == Math.signum(lastScaleFactor))) {
             scale *= scaleFactor;
             scale = Math.max(MIN_ZOOM, Math.min(scale, MAX_ZOOM));
@@ -199,7 +195,7 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
 
     @Override
     public void onScaleEnd(ScaleGestureDetector scaleDetector) {
-        Log.i(TAG, "onScaleEnd");
+        //Log.i(TAG, "onScaleEnd");
         mode = Mode.NONE;
         Log.i(TAG, Float.toString(scale));
     }
@@ -220,13 +216,13 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
-        Log.i(TAG, "SingleTapConfirmed");
+        //Log.i(TAG, "SingleTapConfirmed");
         return true;
     }
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
-        Log.i(TAG, "DoubleTap");
+        //Log.i(TAG, "DoubleTap");
         float oldScale = scale;
         if(scale < MAX_ZOOM -2){
             scale += 2;
@@ -239,7 +235,7 @@ public class ZoomLayout extends FrameLayout implements ScaleGestureDetector.OnSc
 
     @Override
     public boolean onDoubleTapEvent(MotionEvent e) {
-        Log.i(TAG, "DoubleTapEvent");
+        //Log.i(TAG, "DoubleTapEvent");
 
         return true;
     }

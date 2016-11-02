@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import unicap.grafos.unicapmaps.util.LayoutWrapContentUpdater;
+
 /**
  * Created by uira on 01/11/16.
  */
 
-public class TouchListener extends GestureDetector.SimpleOnGestureListener implements View.OnTouchListener, GestureDetector.OnDoubleTapListener {
+public class ZoomTouchListener extends GestureDetector.SimpleOnGestureListener implements View.OnTouchListener, GestureDetector.OnDoubleTapListener {
     private String TAG = "MOTION EVENT";
     private RelativeLayout view;
     private GestureDetector gestureDetector;
@@ -21,7 +23,7 @@ public class TouchListener extends GestureDetector.SimpleOnGestureListener imple
     int minScale = 1;
     int maxScale = 2;
 
-    public TouchListener(RelativeLayout view, Context context) {
+    public ZoomTouchListener(RelativeLayout view, Context context) {
         this.view = view;
         gestureDetector = new GestureDetector(context, this);
 
@@ -51,6 +53,8 @@ public class TouchListener extends GestureDetector.SimpleOnGestureListener imple
         view.setScaleX(2);
         view.setScaleY(2);
         ViewGroup.LayoutParams params;
+
+        LayoutWrapContentUpdater.wrapContentAgain((ViewGroup) view.getParent());
         //params = ((View) view.getParent()).getLayoutParams();
         //((View) view.getParent()).setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         //((View) view.getParent().getParent()).setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));

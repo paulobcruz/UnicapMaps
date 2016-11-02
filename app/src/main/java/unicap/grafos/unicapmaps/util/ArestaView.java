@@ -1,4 +1,4 @@
-package unicap.grafos.unicapmaps.view;
+package unicap.grafos.unicapmaps.util;
 
 import android.content.Context;
 import android.graphics.Canvas;
