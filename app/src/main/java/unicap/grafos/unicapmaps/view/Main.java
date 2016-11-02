@@ -59,7 +59,6 @@ public class Main extends AppCompatActivity {
         grafoController = new GrafoController();
 
         // TUDO DAQUI PRA BAIXO AINDA É TESTE
-        grafoController.logArestas();
 
         RelativeLayout mainActivity = (RelativeLayout) findViewById(R.id.root);
         String larguraMapa = Integer.toString(mainActivity.getWidth());
@@ -75,7 +74,9 @@ public class Main extends AppCompatActivity {
         //Toast.makeText(context, caminhoString, Toast.LENGTH_LONG).show();
         /*FIM DOS TESTES DE GABRIEL*/
 
-
+        RelativeLayout mapaZoom = (RelativeLayout) findViewById(R.id.mapa_conteudo);
+        TouchListener touchListener = new TouchListener(mapaZoom, context);
+        mapaZoom.setOnTouchListener(touchListener);
 
     }
 
@@ -101,6 +102,7 @@ public class Main extends AppCompatActivity {
         ImageView arestaView = (ImageView) findViewById( R.id.arestaConteiner);
         ArestaPathView pathView = new ArestaPathView(mapaWidth, mapaHeight, escalaInicial);
         grafoController.exibirGrafoCompleto(arestaView, pathView);
+
 
 
 
