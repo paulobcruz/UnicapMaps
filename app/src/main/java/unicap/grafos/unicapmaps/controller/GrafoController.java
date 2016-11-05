@@ -61,19 +61,30 @@ public class GrafoController {
     }
     /*Metodo para transformar o stack em arraylist aresta
     /*Está parecido com o outro metodo se quiser pode mudar*/
-    public ArrayList<Aresta> BuscaEmProfundidade(Vertice partida, Vertice chegada) {
+    public ArrayList<Aresta> BuscaEmProfundidade(int idVerticePartida, int idVerticeChegada) {
         int i;
-        Vertice atual,prox;
+        Vertice atual, prox, partida, chegada;
         ArrayList<Aresta>arestas=new ArrayList<>();
         Stack<Vertice>vertices;
-        vertices=MetodoBuscaEmProfundidade(partida, chegada);
-        for(i=0;i<vertices.size()-1;i++){
-            atual=vertices.get(i);
-            prox=vertices.get(i+1);
-            arestas.add(getArestaFromVertices(atual,prox));
+
+        partida = grafo.getVertice(idVerticePartida);
+        chegada = grafo.getVertice(idVerticeChegada);
+        if(partida == null || chegada == null){
+            return null;
+        }else if(partida == chegada){
+            arestas.add(getArestaFromVertices(partida,chegada));
+        } else{
+            vertices = MetodoBuscaEmProfundidade(partida, chegada);
+            for(i=0;i<vertices.size()-1;i++){
+                atual=vertices.get(i);
+                prox=vertices.get(i+1);
+                arestas.add(getArestaFromVertices(atual,prox));
+            }
         }
+
         return arestas;
     }
+
     //Metodo da busca
     public Stack<Vertice> MetodoBuscaEmProfundidade(Vertice partida, Vertice chegada) {
         boolean flag=false;
@@ -112,6 +123,7 @@ public class GrafoController {
         }
         return null;
     }
+
     public ArrayList<ArrayList<Coordenadas>> buscarCoordenadas(ArrayList<Integer> idsVertices) {
         ArrayList<ArrayList<Coordenadas>> coordenadas = new ArrayList<>();
         ArrayList<Aresta> arestas = new ArrayList<>();
