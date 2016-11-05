@@ -30,7 +30,7 @@ public class Grafo {
 
     public Vertice getVertice(int idVertice) {
         Vertice busca = null;
-        if(idVertice < vertices.size()) {
+        if(idVertice < vertices.size() && idVertice >= 0) {
             busca = vertices.get(idVertice);
         }
         return busca;
@@ -61,7 +61,7 @@ public class Grafo {
 
     public Aresta getAresta(int idAresta) {
         Aresta busca = null;
-        if(idAresta < arestas.size()) {
+        if(idAresta < arestas.size() && idAresta >= 0) {
             busca = arestas.get(idAresta);
         }
         return busca;
