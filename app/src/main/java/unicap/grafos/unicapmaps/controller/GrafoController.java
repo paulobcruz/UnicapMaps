@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import unicap.grafos.unicapmaps.controller.Buscas.FactoryBuscas;
+import unicap.grafos.unicapmaps.controller.Buscas.InterfaceBuscaEmGrafo;
 import unicap.grafos.unicapmaps.model.Aresta;
 import unicap.grafos.unicapmaps.model.Coordenadas;
 import unicap.grafos.unicapmaps.model.Grafo;
@@ -27,6 +29,16 @@ public class GrafoController {
         grafo = Grafo.getInstance();
     }
 
+
+    public ArrayList<Aresta> buscar(int idVerticeInicial, int idVerticeFinal, String nomeBusca) {
+        Vertice partida = grafo.getVertice(idVerticeInicial);
+        Vertice chegada = grafo.getVertice(idVerticeFinal);
+
+        InterfaceBuscaEmGrafo metodoBusca = FactoryBuscas.getInstance(this, nomeBusca);
+
+        return metodoBusca.buscar(partida, chegada);
+    }
+
     public StringBuilder exibirArestas( ArrayList<Aresta> arestas) {
         StringBuilder lista = new StringBuilder();
         if(arestas == null) {
@@ -40,89 +52,22 @@ public class GrafoController {
         }
         return lista;
     }
-    //pega proximo vertice nao visitado
-    public Vertice getVeticeProx(Vertice vAT,ArrayList<Boolean> visitados){
-        int i,tam = vAT.getAdjacentes().size();
-        ArrayList<Vertice> vertices=vAT.getAdjacentes();
 
-        for(i=0;i<tam;i++) {
-            vAT=vertices.get(i);
-            if (visitados.get(vAT.getId())==false)
-                return vAT;
-        }
-        if(visitados.get(vAT.getId())==false)
-            return vAT;
-        return null;
-    }
-    //incia o array de boolean com false
-    public void iniciar(ArrayList<Boolean>visitados){
-        int i;
-        for(i=0;i<grafo.countVertices();i++){visitados.add(i,false);}
-    }
-    /*Metodo para transformar o stack em arraylist aresta
-    /*Está parecido com o outro metodo se quiser pode mudar*/
-    public ArrayList<Aresta> BuscaEmProfundidade(int idVerticePartida, int idVerticeChegada) {
-        int i;
-        Vertice atual, prox, partida, chegada;
-        ArrayList<Aresta>arestas=new ArrayList<>();
-        Stack<Vertice>vertices;
 
-        partida = grafo.getVertice(idVerticePartida);
-        chegada = grafo.getVertice(idVerticeChegada);
-        if(partida == null || chegada == null){
-            return null;
-        }else if(partida == chegada){
-            arestas.add(getArestaFromVertices(partida,chegada));
-        } else{
-            vertices = MetodoBuscaEmProfundidade(partida, chegada);
-            for(i=0;i<vertices.size()-1;i++){
-                atual=vertices.get(i);
-                prox=vertices.get(i+1);
-                arestas.add(getArestaFromVertices(atual,prox));
-            }
+    public ArrayList<Aresta> getArestasFromVertices(Stack<Vertice> vertices) {
+        ArrayList<Aresta> arestas = new ArrayList<>();
+        Vertice atual, prox;
+        int i;
+        for(i = 0; i < vertices.size() - 1; i++){
+            atual=vertices.get(i);
+            prox=vertices.get(i+1);
+            arestas.add(getArestaFromVertices(atual,prox));
         }
 
         return arestas;
     }
 
-    //Metodo da busca
-    public Stack<Vertice> MetodoBuscaEmProfundidade(Vertice partida, Vertice chegada) {
-        boolean flag=false;
-        Vertice verticeAtual,verticeProximo;
-        Stack<Vertice> verticesDoCaminho= new Stack<>();
-        ArrayList<Boolean> visitado= new ArrayList<>();
-        iniciar(visitado);
 
-        verticeAtual=partida;
-
-        verticesDoCaminho.push(verticeAtual);//adiciona no caminho
-        visitado.set(verticeAtual.getId(),true);//foi visitado
-
-        while (!verticesDoCaminho.isEmpty())
-        {
-            verticeProximo=getVeticeProx(verticeAtual,visitado);//pega proximo vertice
-            if(verticeProximo==null){
-                if(flag==false) {
-                    verticeProximo = verticesDoCaminho.peek();
-                    flag = true;
-                }
-                else {
-                    verticesDoCaminho.pop();//remove
-                    verticeProximo = verticesDoCaminho.peek();//recebe ultimo
-                    verticeAtual = verticeProximo;
-                    flag = false;
-                }
-            }else if(verticeProximo==chegada){
-                verticesDoCaminho.push(verticeProximo);
-                return verticesDoCaminho;
-            }else{
-                verticeAtual=verticeProximo;
-                visitado.set(verticeAtual.getId(),true);
-                verticesDoCaminho.push(verticeAtual);
-            }
-        }
-        return null;
-    }
 
     public ArrayList<ArrayList<Coordenadas>> buscarCoordenadas(ArrayList<Integer> idsVertices) {
         ArrayList<ArrayList<Coordenadas>> coordenadas = new ArrayList<>();
@@ -134,7 +79,7 @@ public class GrafoController {
             arestas.add(getArestaFromVertices(vA,vB));
         }
         for(Aresta aresta: arestas){
-            coordenadas.add(aresta.getCoordTrajeto());
+            coordenadas.add(aresta.getCoordenadas());
         }
         return coordenadas;
 
@@ -163,10 +108,11 @@ public class GrafoController {
         ArrayList<Aresta> arestas = grafo.getArestas();
         for(Aresta atual: arestas){
             //if(atual.getA() != atual.getB()) {
-            Log.i(TAG, "id:"+ atual.getId() + " (" + atual.getA().getId() + " -> " + atual.getB().getId() +")");
+            //Log.i(TAG, "id:"+ atual.getId() + " (" + atual.getA().getId() + " -> " + atual.getB().getId() +")");
+            Log.i(TAG, "id:"+ atual.getId() + " (" + atual.getA().getNome() + " -> " + atual.getB().getNome() +")");
             //}
         }
-        TAG.getClass();
+        //TAG.getClass();
     }
 
     public ArrayList<Vertice> buscaDijkstra(Vertice vInicial, Vertice vFinal){
@@ -228,7 +174,7 @@ public class GrafoController {
         int cor;
         for(Aresta atual : arestas){
             cor = Color.BLUE;
-            coordenadas.add(atual.getCoordTrajeto());
+            coordenadas.add(atual.getCoordenadas());
             pathView.addPath(coordenadas, cor);
             coordenadas.clear();
         }
@@ -248,7 +194,7 @@ public class GrafoController {
         Vertice vFinal = arestas.get(arestas.size()-1).getB();
 
         for(Aresta atual : arestas){
-            coordenadas.add(atual.getCoordTrajeto());
+            coordenadas.add(atual.getCoordenadas());
         }
         pathView.addPath(coordenadas, cor);
 
@@ -259,4 +205,10 @@ public class GrafoController {
 
         arestaView.setImageBitmap(pathView.getBitmap());
     }
+
+    public int getTotalVertices() {
+        return grafo.countVertices();
+    }
+
+
 }

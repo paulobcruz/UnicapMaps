@@ -27,9 +27,7 @@ public class SplashScreen extends AppCompatActivity {
         Grafo grafo = Grafo.getInstance();
         if(grafo.getVertices().size() == 0) {
             GrafoDao dao = new GrafoDao();
-            dao.montarGrafo();
-
-
+            dao.getGrafo();
 
             /* New Handler to start the Menu-Activity
              * and close this Splash-Screen after some seconds.*/
@@ -53,7 +51,7 @@ public class SplashScreen extends AppCompatActivity {
         startActivity(mainIntent);
         finish();
     }
-
+    /*
     class LoadGrafo extends AsyncTask{
 
         GrafoDao grafoDao = new GrafoDao();
@@ -67,5 +65,5 @@ public class SplashScreen extends AppCompatActivity {
             return grafo;
         }
 
-    }
+    }   */
 }

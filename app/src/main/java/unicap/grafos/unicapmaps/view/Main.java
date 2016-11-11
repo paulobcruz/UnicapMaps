@@ -35,7 +35,7 @@ public class Main extends AppCompatActivity {
     private int windowHeight;
     private int mapaWidth;
     private int mapaHeight;
-    private int larguraOriginal = 600;
+    private int larguraOriginal = 1200;
     private boolean toggle = true;
 
     int idVerticeInicial = -1;
@@ -54,13 +54,13 @@ public class Main extends AppCompatActivity {
         String larguraMapa = Integer.toString(mainActivity.getWidth());
 //        Toast.makeText(context, ""+escala, Toast.LENGTH_LONG).show();
 
-        /* TESTES DE GABRIEL*/
+        /* TESTES DE GABRIEL*//*
         ArrayList<Aresta> caminho;
 
         caminho = grafoController.BuscaEmProfundidade(0, 2);
         StringBuilder caminhoString = grafoController.exibirArestas(caminho);
         //Toast.makeText(context, caminhoString, Toast.LENGTH_LONG).show();
-        /*FIM DOS TESTES DE GABRIEL*/
+        *//*FIM DOS TESTES DE GABRIEL*/
 
         Button submitButton = (Button) findViewById(R.id.submit_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +101,7 @@ public class Main extends AppCompatActivity {
         ImageView arestaView = (ImageView) findViewById( R.id.arestaConteiner);
 
         ArestaPathView pathView = new ArestaPathView(mapaWidth, mapaHeight, escalaInicial);
-        ArrayList<Aresta> caminho = grafoController.BuscaEmProfundidade(idVerticeInicial, idVerticeFinal);
+        ArrayList<Aresta> caminho = grafoController.buscar(idVerticeInicial, idVerticeFinal, "profundidade");
 
         //caminho = buscaEscolhida;
         if(caminho != null){

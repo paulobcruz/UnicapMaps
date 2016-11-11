@@ -15,13 +15,13 @@ public class Aresta {
     private Vertice B = null;
     private int custo;
     private String descricao;
-    private ArrayList<Coordenadas> coordTrajeto;
+    private ArrayList<Coordenadas> coordenadas;
     //private restrições
 
-    Aresta(Vertice a, Vertice b){
+    public Aresta(Vertice a, Vertice b){
         this.A = a;
         this.B = b;
-        coordTrajeto = new ArrayList<>();
+        coordenadas = new ArrayList<>();
     }
 
     private Vertice getAdjacente(Vertice vertice){
@@ -77,10 +77,14 @@ public class Aresta {
 
     public void addCoord(int x, int y){
         Coordenadas novoPonto = new Coordenadas(x, y);
-        coordTrajeto.add(novoPonto);
+        coordenadas.add(novoPonto);
     }
 
-    public ArrayList<Coordenadas> getCoordTrajeto() {
-        return coordTrajeto;
+    public ArrayList<Coordenadas> getCoordenadas() {
+        return coordenadas;
+    }
+
+    public void setCoordenadas(ArrayList<Coordenadas> coordenadas) {
+        this.coordenadas = coordenadas;
     }
 }
