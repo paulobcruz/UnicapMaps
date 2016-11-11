@@ -62,6 +62,7 @@ public class Main extends AppCompatActivity {
         //Toast.makeText(context, caminhoString, Toast.LENGTH_LONG).show();
         *//*FIM DOS TESTES DE GABRIEL*/
 
+
         Button submitButton = (Button) findViewById(R.id.submit_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +88,9 @@ public class Main extends AppCompatActivity {
         EditText inputPartida = (EditText) findViewById(R.id.edit_text_partida);
         EditText inputDestino = (EditText) findViewById(R.id.edit_text_destino);
 
+        ImageView arestaView = (ImageView) findViewById( R.id.arestaConteiner);
+        ArestaPathView pathView = new ArestaPathView(mapaWidth, mapaHeight, escalaInicial);
+
         String inputTextPartida = inputPartida.getText().toString().trim();
         String inputTextDestino = inputDestino.getText().toString().trim();
 
@@ -96,11 +100,9 @@ public class Main extends AppCompatActivity {
         } else{
             idVerticeInicial = -1;
             idVerticeFinal = -1;
+            grafoController.exibirGrafoCompleto(arestaView,pathView);
         }
 
-        ImageView arestaView = (ImageView) findViewById( R.id.arestaConteiner);
-
-        ArestaPathView pathView = new ArestaPathView(mapaWidth, mapaHeight, escalaInicial);
         ArrayList<Aresta> caminho = grafoController.buscar(idVerticeInicial, idVerticeFinal, "profundidade");
 
         //caminho = buscaEscolhida;

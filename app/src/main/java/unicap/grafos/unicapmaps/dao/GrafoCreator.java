@@ -78,7 +78,13 @@ public class GrafoCreator {
         //verifica cada vertice se tem adjacencias, a partir da matriz de adjacencias
         for(Vertice atual: grafo.getVertices()){
             id = atual.getId();
-            //atual.addAdjacente(atual);  //caso considerar laços, descomentar essa linha
+
+
+            //caso considerar laços, descomentar essas duas linhas
+            //atual.addAdjacente(atual);
+            //grafo.addAresta(atual, atual);
+
+
             for(i = 0; i < grauMatriz; i++){
                 if(matrizAdjacencias[id][i] == 1){ //se tiver adjacencia, o "i" é o id do vértice adjacente
                     //busca o vertice pelo id "i" e adiciona como adjacente no Vertice atual
@@ -105,10 +111,10 @@ public class GrafoCreator {
             aresta.addCoord(p.getX(), p.getY());
 
             //coordenadas do meio
-            /*tamanho = coordenadasComplementares[i].length;
+            tamanho = coordenadasComplementares[i].length;
             for(k = 0; k < tamanho; k++) {
                 aresta.addCoord(coordenadasComplementares[i][k][0], coordenadasComplementares[i][k][1]);
-            }*/
+            }
 
             //ultima coordenada
             p = aresta.getB().getCoordenadas();

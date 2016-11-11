@@ -11,6 +11,7 @@ import android.graphics.PathDashPathEffect;
 import android.graphics.PathEffect;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -36,6 +37,8 @@ public class ArestaPathView {
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
         pathPaint = new Paint();
+
+        //bitmap.setDensity(bitmap.getDensity());
         //textPaint = new Paint();
         path = new Path();
         this.escala = escala;
@@ -47,7 +50,7 @@ public class ArestaPathView {
         pathEffect = new CornerPathEffect(10);
 
 
-        pathPaint.setStrokeWidth(8);
+        pathPaint.setStrokeWidth(3);
         pathPaint.setStyle(Paint.Style.STROKE);
         pathPaint.setStrokeCap(Paint.Cap.ROUND);
         pathPaint.setAntiAlias(true);
