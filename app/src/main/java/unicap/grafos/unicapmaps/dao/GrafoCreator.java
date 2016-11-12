@@ -9,6 +9,7 @@ import unicap.grafos.unicapmaps.controller.GrafoController;
 import unicap.grafos.unicapmaps.model.Aresta;
 import unicap.grafos.unicapmaps.model.Coordenadas;
 import unicap.grafos.unicapmaps.model.Grafo;
+import unicap.grafos.unicapmaps.model.Trajeto;
 import unicap.grafos.unicapmaps.model.Vertice;
 
 /**
@@ -23,24 +24,38 @@ public class GrafoCreator {
     private int grauMatriz;
     private int coordenadasComplementares[][][];
     private String nomesBlocos[];
+    private int custosArestas[];
+    private ArrayList<Trajeto> trajetos;
 
+    private GrafoController grafoController;
 
     GrafoCreator(){
-
+        grafoController = new GrafoController();
     }
 
     void construirGrafo(){
         grafo = Grafo.getInstance();
-        GrafoController grafoController = new GrafoController();
 
         carregarDados();
         criarVertices();
         estabelecerAdjacencias();
         configCoordArestas();
-        grafoController.logArestas();
+        //grafoController.logArestas();
         Log.i("--", "----------------------------------------------------------");
         espelharGrafo();
         grafoController.logArestas();
+        atribuirTrajetos();
+    }
+
+    private void atribuirTrajetos() {
+        Vertice A, B;
+        Aresta aresta;
+        for(Trajeto trajeto: trajetos){
+            A = grafo.getVertice(trajeto.getIdA());
+            B = grafo.getVertice(trajeto.getIdB());
+            aresta = grafoController.getArestaFromVertices(A, B);
+            aresta.setDescricao(trajeto.getDescricao());
+        }
     }
 
     private void carregarDados() {
@@ -49,6 +64,8 @@ public class GrafoCreator {
         coordenadasComplementares = Dados.getCoordenadasComplementares();
         nomesBlocos = Dados.getNomesBlocos();
         grauMatriz = matrizAdjacencias.length;
+        custosArestas = Dados.getCustos();
+        trajetos = DadosTrajetosArestas.getTrajetos();
     }
 
 
@@ -105,6 +122,7 @@ public class GrafoCreator {
 
         for(Aresta aresta: grafo.getArestas()){
             Coordenadas p;
+            aresta.setCusto(custosArestas[i]);
 
             //primeira coordenada
             p = aresta.getA().getCoordenadas();
@@ -135,11 +153,12 @@ public class GrafoCreator {
             B = aresta.getB();
 
             if(A != B){
-                B.addAdjacente(A, 0);
+                B.addAdjacenteOrdenado(A);
                 novaAresta = grafo.addAresta(B, A);
                 B.addAresta(novaAresta);
                 ArrayList<Coordenadas> coordenadasInvertidas = inverterCoordenadas(aresta);
                 novaAresta.setCoordenadas(coordenadasInvertidas);
+                novaAresta.setCusto(aresta.getCusto());
             }
         }
     }

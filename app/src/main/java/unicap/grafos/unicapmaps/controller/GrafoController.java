@@ -2,6 +2,7 @@ package unicap.grafos.unicapmaps.controller;
 
 
 import android.graphics.Color;
+import android.icu.text.IDNA;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -10,9 +11,11 @@ import java.util.Stack;
 
 import unicap.grafos.unicapmaps.controller.Buscas.FactoryBuscas;
 import unicap.grafos.unicapmaps.controller.Buscas.InterfaceBuscaEmGrafo;
+import unicap.grafos.unicapmaps.dao.InfoBlocos;
 import unicap.grafos.unicapmaps.model.Aresta;
 import unicap.grafos.unicapmaps.model.Coordenadas;
 import unicap.grafos.unicapmaps.model.Grafo;
+import unicap.grafos.unicapmaps.model.Trajeto;
 import unicap.grafos.unicapmaps.model.Vertice;
 import unicap.grafos.unicapmaps.view.ArestaPathView;
 
@@ -25,10 +28,8 @@ public class GrafoController {
     private Grafo grafo;
 
     public GrafoController(){
-
         grafo = Grafo.getInstance();
     }
-
 
     public ArrayList<Aresta> buscar(int idVerticeInicial, int idVerticeFinal, String nomeBusca) {
         Vertice partida = grafo.getVertice(idVerticeInicial);
@@ -107,9 +108,19 @@ public class GrafoController {
         String TAG = "ARESTA: ";
         ArrayList<Aresta> arestas = grafo.getArestas();
         for(Aresta atual: arestas){
+            Vertice A = atual.getA();
+            Vertice B = atual.getB();
+            String nomeA = A.getNome();
+            String nomeB = B.getNome();
+            char a = nomeA.charAt(nomeA.length()-1);
+            char b = nomeB.charAt(nomeB.length()-1);
+
             //if(atual.getA() != atual.getB()) {
             //Log.i(TAG, "id:"+ atual.getId() + " (" + atual.getA().getId() + " -> " + atual.getB().getId() +")");
-            Log.i(TAG, "id:"+ atual.getId() + " (" + atual.getA().getNome() + " -> " + atual.getB().getNome() +")");
+            //Log.i(TAG, "id:"+ atual.getId() + " (" + atual.getA().getNome() + " -> " + atual.getB().getNome() +")");
+
+            Log.i(TAG, "trajetos.add(new Trajeto("+ atual.getA().getId() +", "+ atual.getB().getId() +", "+ a +"_"+ b +"));");
+            ///trajetos.add(new Trajeto(0, 1, A_B));
             //}
         }
         //TAG.getClass();
@@ -167,10 +178,17 @@ public class GrafoController {
         return null;
     }
 
+    public int calcularDistancia(ArrayList<Aresta> caminho){
+        int distancia = 0;
+        for(Aresta atual: caminho){
+            distancia += atual.getCusto();
+        }
+        return distancia;
+    }
+
     public void exibirGrafoCompleto(ImageView arestaView, ArestaPathView pathView) {
         ArrayList<ArrayList<Coordenadas>> coordenadas = new ArrayList<>();
         ArrayList<Aresta> arestas = grafo.getArestas();
-        ArrayList<ArrayList<Coordenadas>> coordTemp = new ArrayList<>();
         int cor;
         for(Aresta atual : arestas){
             cor = Color.BLUE;
@@ -198,16 +216,19 @@ public class GrafoController {
         }
         pathView.addPath(coordenadas, cor);
 
-
         pathView.addCircle(vInicial.getCoordenadas().getX(), vInicial.getCoordenadas().getY(), Color.BLACK);
         pathView.addCircle(vFinal.getCoordenadas().getX(), vFinal.getCoordenadas().getY(), Color.BLUE);
-
 
         arestaView.setImageBitmap(pathView.getBitmap());
     }
 
     public int getTotalVertices() {
         return grafo.countVertices();
+    }
+
+    public ArrayList<String[]> getInfoBlocos(){
+        InfoBlocos infoBlocos = new InfoBlocos();
+        return infoBlocos.getInfoBlocos();
     }
 
 

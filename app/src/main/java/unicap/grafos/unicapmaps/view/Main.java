@@ -28,16 +28,11 @@ public class Main extends AppCompatActivity {
 
     private Grafo grafo = Grafo.getInstance();
     private Context context;
-
     private GrafoController grafoController;
     private float escalaInicial;
-    private int windowWidth;
-    private int windowHeight;
     private int mapaWidth;
     private int mapaHeight;
-    private int larguraOriginal = 1200;
-    private boolean toggle = true;
-
+    private final int larguraOriginal = 1200;
     int idVerticeInicial = -1;
     int idVerticeFinal = -1;
 
@@ -110,6 +105,7 @@ public class Main extends AppCompatActivity {
             grafoController.exibirCaminho(arestaView, pathView, caminho, Color.BLUE);
             inputPartida.setText(grafo.getVertice(idVerticeInicial).getNome());
             inputDestino.setText(grafo.getVertice(idVerticeFinal).getNome());
+            Toast.makeText(context, "Distância: " + grafoController.calcularDistancia(caminho) + " metros", Toast.LENGTH_SHORT).show();
         } else{
             idVerticeInicial = -1;
             idVerticeFinal = -1;

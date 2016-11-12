@@ -9,12 +9,13 @@ import java.util.ArrayList;
 /**
  * Created by Cais Automação on 06/10/2016. project Unicap Maps
  */
+
 public class Aresta {
     private int id;
     private Vertice A = null;
     private Vertice B = null;
     private int custo;
-    private String descricao;
+    private String descricao[];
     private ArrayList<Coordenadas> coordenadas;
     //private restrições
 
@@ -36,13 +37,14 @@ public class Aresta {
             }
         }
     }
-    public String getDescricao() {
+    public String[] getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(String descricao) {
+    public void setDescricao(String[] descricao) {
         this.descricao = descricao;
     }
+
     public int getId() {
         return id;
     }

@@ -25,7 +25,15 @@ public class Vertice {
     public void addAdjacente(Vertice novoAdj) {
         adjacentes.add(novoAdj);
     }
-    public void addAdjacente(Vertice novoAdj, int posicao) {
+
+    public void addAdjacenteOrdenado(Vertice novoAdj){
+        int posicao = 0;
+        for(Vertice atual: adjacentes){
+            if(novoAdj.getId() < atual.getId()){
+                posicao = adjacentes.indexOf(atual);
+                break;
+            }
+        }
         adjacentes.add(posicao, novoAdj);
     }
 
