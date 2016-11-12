@@ -107,19 +107,40 @@ public class GrafoController {
     public void logArestas(){
         String TAG = "ARESTA: ";
         ArrayList<Aresta> arestas = grafo.getArestas();
-        for(Aresta atual: arestas){
-            Vertice A = atual.getA();
-            Vertice B = atual.getB();
-            String nomeA = A.getNome();
-            String nomeB = B.getNome();
-            char a = nomeA.charAt(nomeA.length()-1);
-            char b = nomeB.charAt(nomeB.length()-1);
+        int i = 0;
+        Aresta atual1, atual2;
+        Vertice A;
+        Vertice B;
+        String nomeA;
+        String nomeB;
+        char a;
+        char b;
+        //for(Aresta atual: arestas){
+        for(i = 0; i< arestas.size()/2; i++){
+            atual1 = arestas.get(i);
+            atual2 = arestas.get(i+47);
+            A = atual1.getA();
+            B = atual1.getB();
+            nomeA = A.getNome();
+            nomeB = B.getNome();
+            a = nomeA.charAt(nomeA.length()-1);
+            b = nomeB.charAt(nomeB.length()-1);
 
             //if(atual.getA() != atual.getB()) {
             //Log.i(TAG, "id:"+ atual.getId() + " (" + atual.getA().getId() + " -> " + atual.getB().getId() +")");
             //Log.i(TAG, "id:"+ atual.getId() + " (" + atual.getA().getNome() + " -> " + atual.getB().getNome() +")");
 
-            Log.i(TAG, "trajetos.add(new Trajeto("+ atual.getA().getId() +", "+ atual.getB().getId() +", "+ a +"_"+ b +"));");
+            Log.i(TAG, "trajetos.add(new Trajeto("+ A.getId() +", "+ B.getId() +", "+ a +"_"+ b +"));");
+
+            A = atual2.getA();
+            B = atual2.getB();
+            nomeA = A.getNome();
+            nomeB = B.getNome();
+            a = nomeA.charAt(nomeA.length()-1);
+            b = nomeB.charAt(nomeB.length()-1);
+
+            Log.i(TAG, "trajetos.add(new Trajeto("+ A.getId() +", "+ B.getId() +", "+ a +"_"+ b +"));");
+
             ///trajetos.add(new Trajeto(0, 1, A_B));
             //}
         }
