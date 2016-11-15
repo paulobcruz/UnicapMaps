@@ -1,8 +1,5 @@
 package unicap.grafos.unicapmaps.model;
 
-import android.hardware.usb.UsbConfiguration;
-import android.widget.ArrayAdapter;
-
 import java.util.ArrayList;
 
 

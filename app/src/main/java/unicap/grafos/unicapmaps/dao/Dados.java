@@ -1,7 +1,5 @@
 package unicap.grafos.unicapmaps.dao;
 
-import java.util.ArrayList;
-
 /**
  * Created by Cais Automação on 06/10/2016. project Unicap Maps
  */
@@ -71,7 +69,7 @@ class Dados {
         return nomesBlocos;
     }
 
-    private static int coordenadasVertices[][] = {
+    public static int coordenadasVertices[][] = {
             { 587,810},  //0  A
             { 556,810},  //1  B
             { 433,735},  //2  C

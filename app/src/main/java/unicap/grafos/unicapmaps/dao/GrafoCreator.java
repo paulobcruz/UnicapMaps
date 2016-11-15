@@ -1,6 +1,5 @@
 package unicap.grafos.unicapmaps.dao;
 
-import android.app.admin.DeviceAdminInfo;
 import android.util.Log;
 
 import java.util.ArrayList;

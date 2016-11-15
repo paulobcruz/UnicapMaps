@@ -31,7 +31,7 @@ public class InfoBlocos {
         infoBlocos.add(S);      //18 S = Estacionamento estudantes
         infoBlocos.add(T);      //19 T
         infoBlocos.add(U);      //20 U = Quadra de esportes
-        infoBlocos.add(V);      //21 V = Jardim dos patos
+        infoBlocos.add(V);      //21 V = Jardim
         infoBlocos.add(W);      //22 W
         infoBlocos.add(G4);     //23 G4
     }

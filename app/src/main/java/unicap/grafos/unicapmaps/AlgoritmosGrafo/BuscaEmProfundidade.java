@@ -1,4 +1,4 @@
-package unicap.grafos.unicapmaps.controller.Buscas;
+package unicap.grafos.unicapmaps.AlgoritmosGrafo;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -27,9 +27,7 @@ public class BuscaEmProfundidade implements InterfaceBuscaEmGrafo {
         ArrayList<Aresta> arestas = null;
         Stack<Vertice> vertices;
 
-        if(partida == null || chegada == null){
-            return null;
-        }else if(partida == chegada){
+        if(partida == chegada){
             arestas.add(controller.getArestaFromVertices(partida,chegada));
         } else{
             vertices = MetodoBuscaEmProfundidade(partida, chegada);

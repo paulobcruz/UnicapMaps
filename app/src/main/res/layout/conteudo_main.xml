@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.Main">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        />
+
+
+    <unicap.grafos.unicapmaps.view.ZoomLayout
+        android:focusableInTouchMode="true"
+        android:id="@+id/mapaViewPort"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/my_toolbar"
+        android:background="@color/bg1"
+        >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            >
+            <RelativeLayout
+                android:id="@+id/mapa_conteudo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+                <ImageView
+                    android:keepScreenOn="true"
+                    android:isScrollContainer="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imagem_mapa"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/mapa_vetor" />
+                <ImageView
+                    android:id="@+id/arestaConteiner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    >
+                </ImageView>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/balao_local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/balao_local"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:visibility="invisible"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:textSize="10dp"
+                    android:textAllCaps="true"
+                    android:text="Destino"
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </unicap.grafos.unicapmaps.view.ZoomLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_toolbar"
+        >
+
+
+        <RelativeLayout
+            android:id="@+id/layout_inputs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="0dp"
+            >
+
+            <EditText
+                android:id="@+id/edit_text_partida"
+                android:paddingBottom="8dp"
+                android:paddingTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Digite o local de partida"
+                android:background="@drawable/edit_text_style"
+                android:alpha="0.9"
+                android:textSize="16dp"
+                android:textAlignment="center"
+                android:nextFocusUp="@id/edit_text_partida"
+                android:nextFocusLeft="@id/edit_text_partida"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textStyle="normal|bold"
+                android:selectAllOnFocus="true"
+                android:singleLine="true" />
+
+            <EditText
+                android:inputType="number"
+                android:selectAllOnFocus="true"
+                android:layout_below="@id/edit_text_partida"
+                android:id="@+id/edit_text_destino"
+                android:paddingBottom="8dp"
+                android:paddingTop="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Digite o local de destino"
+                android:background="@drawable/edit_text_style"
+                android:alpha="0.9"
+                android:textSize="16dp"
+                android:textAlignment="center"
+                android:maxLines="1"
+                android:textStyle="normal|bold"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Local de Partida"
+                android:textAllCaps="true"
+                android:textSize="10dp"
+                android:textColor="@color/cinza"
+                android:layout_alignTop="@id/edit_text_partida"
+                android:textAlignment="center"
+                android:layout_centerHorizontal="true"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/cinza"
+                android:text="Local de Destino"
+                android:textAllCaps="true"
+                android:textSize="10dp"
+                android:layout_alignTop="@id/edit_text_destino"
+                android:textAlignment="center"
+                android:layout_centerHorizontal="true"
+                />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/info_trajeto"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@color/white_overlay"
+            android:visibility="invisible"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Partida: "
+                android:layout_marginBottom="5dp"
+                android:textSize="16dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/red"
+                android:textSize="16dp"
+                android:text="> Destino: "/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distância: "/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_botoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/clear_button"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Limpar"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/branco"/>
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Traçar Rota"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/branco"
+            />
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

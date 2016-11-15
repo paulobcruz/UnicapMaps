@@ -2,20 +2,18 @@ package unicap.grafos.unicapmaps.controller;
 
 
 import android.graphics.Color;
-import android.icu.text.IDNA;
 import android.util.Log;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
-import java.util.Stack;
+import java.util.List;
 
-import unicap.grafos.unicapmaps.controller.Buscas.FactoryBuscas;
-import unicap.grafos.unicapmaps.controller.Buscas.InterfaceBuscaEmGrafo;
+import unicap.grafos.unicapmaps.AlgoritmosGrafo.FactoryBuscas;
+import unicap.grafos.unicapmaps.AlgoritmosGrafo.InterfaceBuscaEmGrafo;
 import unicap.grafos.unicapmaps.dao.InfoBlocos;
 import unicap.grafos.unicapmaps.model.Aresta;
 import unicap.grafos.unicapmaps.model.Coordenadas;
 import unicap.grafos.unicapmaps.model.Grafo;
-import unicap.grafos.unicapmaps.model.Trajeto;
 import unicap.grafos.unicapmaps.model.Vertice;
 import unicap.grafos.unicapmaps.view.ArestaPathView;
 
@@ -35,7 +33,14 @@ public class GrafoController {
         Vertice partida = grafo.getVertice(idVerticeInicial);
         Vertice chegada = grafo.getVertice(idVerticeFinal);
 
+        if(partida == null || chegada == null){
+            return null;
+        }
+
         InterfaceBuscaEmGrafo metodoBusca = FactoryBuscas.getInstance(this, nomeBusca);
+        if(metodoBusca == null){
+            return null;
+        }
 
         return metodoBusca.buscar(partida, chegada);
     }
@@ -54,21 +59,18 @@ public class GrafoController {
         return lista;
     }
 
-
-    public ArrayList<Aresta> getArestasFromVertices(Stack<Vertice> vertices) {
+    public ArrayList<Aresta> getArestasFromVertices(List vertices) {
         ArrayList<Aresta> arestas = new ArrayList<>();
         Vertice atual, prox;
         int i;
         for(i = 0; i < vertices.size() - 1; i++){
-            atual=vertices.get(i);
-            prox=vertices.get(i+1);
+            atual = ((Vertice) vertices.get(i));
+            prox = ((Vertice) vertices.get(i + 1));
             arestas.add(getArestaFromVertices(atual,prox));
         }
 
         return arestas;
     }
-
-
 
     public ArrayList<ArrayList<Coordenadas>> buscarCoordenadas(ArrayList<Integer> idsVertices) {
         ArrayList<ArrayList<Coordenadas>> coordenadas = new ArrayList<>();
@@ -104,7 +106,7 @@ public class GrafoController {
         return aresta;
     }
 
-    public void logArestas(){
+    public void logArestas(){ //metodo pra debug
         String TAG = "ARESTA: ";
         ArrayList<Aresta> arestas = grafo.getArestas();
         int i = 0;
@@ -147,58 +149,6 @@ public class GrafoController {
         //TAG.getClass();
     }
 
-    public ArrayList<Vertice> buscaDijkstra(Vertice vInicial, Vertice vFinal){
-        /*int menorCusto;
-        int custoAcumulado = 0;
-        ArrayList<Aresta> caminho = new ArrayList<>();
-        Aresta menorAresta;
-        while(true) {
-            if(vInicial == vFinal){
-                return caminho;
-            }
-            ArrayList<Aresta> arestasAdjacentes;
-            arestasAdjacentes = vInicial.getArestas();
-            if(arestasAdjacentes != null){
-                menorCusto = arestasAdjacentes.get(0).getCusto();
-                int idAresta = arestasAdjacentes.get(0).getId();
-                for(Aresta atual: arestasAdjacentes){
-                    if(atual.getCusto() < menorCusto){
-                        menorCusto = atual.getCusto();
-                        idAresta = atual.getId();
-                    }
-                }
-                menorAresta = grafo.getAresta(idAresta);
-                vInicial = menorAresta.getB();
-                caminho.add(menorAresta);
-                custoAcumulado += menorCusto;
-            }else{
-                return null;
-            }
-        }
-        */
-        return null;
-    }
-
-    public ArrayList<Vertice> buscaLargura(Vertice vInicial, Vertice vFinal){
-
-        return null;
-    }
-
-    public ArrayList<Vertice> buscaProfundidade(Vertice vInicial, Vertice vFinal){
-
-        return null;
-    }
-
-    public ArrayList<Vertice> buscaEstrela(Vertice vInicial, Vertice vFinal){
-
-        return null;
-    }
-
-    public ArrayList<Vertice> buscaGulosa(Vertice vInicial, Vertice vFinal){
-
-        return null;
-    }
-
     public int calcularDistancia(ArrayList<Aresta> caminho){
         int distancia = 0;
         for(Aresta atual: caminho){
@@ -207,23 +157,47 @@ public class GrafoController {
         return distancia;
     }
 
-    public void exibirGrafoCompleto(ImageView arestaView, ArestaPathView pathView) {
+    public void exibirGrafoCompleto(ImageView arestaView, ArestaPathView pathView, boolean arestasSimples) {
         ArrayList<ArrayList<Coordenadas>> coordenadas = new ArrayList<>();
         ArrayList<Aresta> arestas = grafo.getArestas();
         int cor;
-        for(Aresta atual : arestas){
+        if(arestasSimples){
+            cor = Color.BLACK;
+        } else{
             cor = Color.BLUE;
-            coordenadas.add(atual.getCoordenadas());
+        }
+
+        for(Aresta atual : arestas){
+            if(arestasSimples){
+                cor = Color.BLACK;
+                ArrayList<Coordenadas> coordSimples = new ArrayList<>();
+                coordSimples.add(atual.getA().getCoordenadas());
+                coordSimples.add(atual.getB().getCoordenadas());
+                coordenadas.add(coordSimples);
+            } else{
+                coordenadas.add(atual.getCoordenadas());
+            }
             pathView.addPath(coordenadas, cor);
             coordenadas.clear();
         }
+
         for(Aresta atual : arestas){
             cor = Color.RED;
             if(atual.getA() == atual.getB()){
-                pathView.addCircle(atual.getA().getCoordenadas().getX(), atual.getA().getCoordenadas().getY(), cor);
+                pathView.addCircle(atual.getA().getCoordenadas().getX(), atual.getA().getCoordenadas().getY(), cor, 5);
             }
         }
+        arestaView.setImageBitmap(pathView.getBitmap());
+    }
 
+    public void colorirVertices(ArrayList<Integer> coresVertices, ImageView arestaView, ArestaPathView pathView) {
+        Vertice vertice;
+        int i, cor;
+        for(i = 0; i < coresVertices.size(); i++){
+            cor = coresVertices.get(i);
+            vertice = grafo.getVertice(i);
+            pathView.addCircle(vertice.getCoordenadas().getX(), vertice.getCoordenadas().getY(), cor, 8);
+        }
         arestaView.setImageBitmap(pathView.getBitmap());
     }
 
@@ -237,8 +211,8 @@ public class GrafoController {
         }
         pathView.addPath(coordenadas, cor);
 
-        pathView.addCircle(vInicial.getCoordenadas().getX(), vInicial.getCoordenadas().getY(), Color.BLACK);
-        pathView.addCircle(vFinal.getCoordenadas().getX(), vFinal.getCoordenadas().getY(), Color.BLUE);
+        pathView.addCircle(vInicial.getCoordenadas().getX(), vInicial.getCoordenadas().getY(), Color.BLACK, 5);
+        pathView.addCircle(vFinal.getCoordenadas().getX(), vFinal.getCoordenadas().getY(), Color.BLUE, 5);
 
         arestaView.setImageBitmap(pathView.getBitmap());
     }
@@ -251,6 +225,7 @@ public class GrafoController {
         InfoBlocos infoBlocos = new InfoBlocos();
         return infoBlocos.getInfoBlocos();
     }
+
 
 
 }

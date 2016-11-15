@@ -1,4 +1,4 @@
-package unicap.grafos.unicapmaps.controller.Buscas;
+package unicap.grafos.unicapmaps.AlgoritmosGrafo;
 
 import unicap.grafos.unicapmaps.controller.GrafoController;
 
@@ -21,8 +21,10 @@ public class FactoryBuscas {
             return new BuscaDijkstra(controller);
         }else if (nomeBusca.equalsIgnoreCase("gulosa")) {
             return new BuscaGulosa(controller);
-        }else if (nomeBusca.equalsIgnoreCase("estrela")) {
-            return new BuscaEstrela(controller);
+        }else if (nomeBusca.equalsIgnoreCase("a_estrela")) {
+            return new BuscaAEstrela(controller);
+        }else if (nomeBusca.equalsIgnoreCase("bellman_ford")) {
+            return new BuscaBellManFord(controller);
         }
         return null;
     }

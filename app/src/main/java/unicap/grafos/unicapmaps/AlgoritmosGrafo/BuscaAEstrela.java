@@ -1,4 +1,4 @@
-package unicap.grafos.unicapmaps.controller.Buscas;
+package unicap.grafos.unicapmaps.AlgoritmosGrafo;
 
 import java.util.ArrayList;
 
@@ -9,11 +9,11 @@ import unicap.grafos.unicapmaps.model.Vertice;
 /**
  * Created by Cais Automação on 11/11/2016. project UnicapMaps
  */
-public class BuscaEstrela implements InterfaceBuscaEmGrafo {
+public class BuscaAEstrela implements InterfaceBuscaEmGrafo {
 
     private GrafoController controller;
 
-    public BuscaEstrela(GrafoController controller) {
+    public BuscaAEstrela(GrafoController controller) {
         this.controller = controller;
     }
 

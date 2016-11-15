@@ -13,7 +13,7 @@ public class DadosTrajetosArestas{
     private static ArrayList<Trajeto> trajetos;
 
     public DadosTrajetosArestas(){
-        //trajetos.add(new Trajeto(0, 1, A_B));
+
     }
 
     public static void criarTrajetos(){

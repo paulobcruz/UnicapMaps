@@ -1,4 +1,4 @@
-package unicap.grafos.unicapmaps.controller.Buscas;
+package unicap.grafos.unicapmaps.AlgoritmosGrafo;
 
 import java.util.ArrayList;
 

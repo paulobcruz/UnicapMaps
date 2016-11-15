@@ -1,9 +1,6 @@
 package unicap.grafos.unicapmaps.dao;
 
-import unicap.grafos.unicapmaps.model.Aresta;
-import unicap.grafos.unicapmaps.model.Coordenadas;
 import unicap.grafos.unicapmaps.model.Grafo;
-import unicap.grafos.unicapmaps.model.Vertice;
 
 /**
  * Created by Cais Automação on 06/10/2016. project Unicap Maps
@@ -14,6 +11,7 @@ public class GrafoDao {
 
 
     public GrafoDao() {
+
         grafoCreator = new GrafoCreator();
     }
 
