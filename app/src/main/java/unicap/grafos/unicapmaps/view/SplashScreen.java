@@ -3,6 +3,7 @@ package unicap.grafos.unicapmaps.view;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import unicap.grafos.unicapmaps.R;
@@ -11,12 +12,23 @@ import unicap.grafos.unicapmaps.model.Grafo;
 
 public class SplashScreen extends AppCompatActivity {
 
-    int runOnce = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Grafo grafo = Grafo.getInstance();
+                if (grafo.getVertices().size() == 0) {
+                    GrafoDao grafoDao = new GrafoDao();
+                    grafoDao.getGrafo();
+                }
+                startMain();
+            }
+        }, 0);
 
     }
 
@@ -26,38 +38,4 @@ public class SplashScreen extends AppCompatActivity {
         finish();
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        if(runOnce == 0) {
-            runOnce++;
-            Grafo grafo = Grafo.getInstance();
-            if (grafo.getVertices().size() == 0) {
-                LoadGrafo grafoLoader = new LoadGrafo();
-                grafoLoader.execute();
-            } else {
-                startMain();
-            }
-        }
-    }
-
-    class LoadGrafo extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            //ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-            //progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            GrafoDao grafoDao = new GrafoDao();
-            grafoDao.getGrafo();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            startMain();
-        }
-    }
 }

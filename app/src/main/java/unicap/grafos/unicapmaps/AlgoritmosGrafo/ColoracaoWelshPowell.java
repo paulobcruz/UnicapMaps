@@ -21,28 +21,38 @@ import unicap.grafos.unicapmaps.model.Vertice;
 public class ColoracaoWelshPowell {
     Grafo grafo;
 
+
     public ColoracaoWelshPowell() {
         grafo = Grafo.getInstance();
     }
 
-    public ArrayList<Integer> colorir(){
+    public ArrayList<ArrayList> colorir(){
         ArrayList<Vertice> dependencias = new ArrayList<>();
         ArrayList<Vertice> paraRemover = new ArrayList<>();
+
+        ArrayList<ArrayList> verticesComCores = new ArrayList();
+
+
         Queue<Vertice> filaVertices = ordenarVertices();
         ArrayList<Integer> corVertices = iniciarArrayCores();
         Queue<Integer> cores = iniciarCores();
+        ArrayList<Vertice> verticesOrdenados = new ArrayList<>();
+
         Vertice atual;
         int corAtual;
 
         while(!filaVertices.isEmpty()){
             corAtual = cores.poll();
             atual = filaVertices.poll();
-            corVertices.set(atual.getId(), corAtual);
+            corVertices.add(corAtual);
+            verticesOrdenados.add(atual);
             dependencias.addAll(atual.getAdjacentes());
 
             for(Vertice vertice: filaVertices){
                 if (!dependencias.contains(vertice)){
-                    corVertices.set(vertice.getId(), corAtual);
+                    //corVertices.set(vertice.getId(), corAtual);
+                    corVertices.add(corAtual);
+                    verticesOrdenados.add(vertice);
                     dependencias.addAll(vertice.getAdjacentes());
                     paraRemover.add(vertice);
                 }
@@ -52,8 +62,11 @@ public class ColoracaoWelshPowell {
             paraRemover.clear();
             dependencias.clear();
         }
-        return corVertices;
+        verticesComCores.add(verticesOrdenados);
+        verticesComCores.add(corVertices);
+        return verticesComCores;
     }
+
 
     private Queue<Integer> iniciarCores(){
         Queue<Integer> cores = new LinkedList<>();
@@ -72,14 +85,13 @@ public class ColoracaoWelshPowell {
     private ArrayList<Integer> iniciarArrayCores(){
         ArrayList<Integer> cores = new ArrayList<>();
         int i;
-        for(i = 0; i < grafo.countVertices(); i++){
+        /*for(i = 0; i < grafo.countVertices(); i++){
             cores.add(0);
-        }
+        }*/
         return cores;
     }
 
     private Queue<Vertice> ordenarVertices() {
-        ComparadorMaiorGrau comparador = new ComparadorMaiorGrau();
         Queue<Vertice> filaVertices = new LinkedList<>();
         ArrayOrdenado fila = new ArrayOrdenado();
         for(Vertice vertice: grafo.getVertices()){
@@ -89,20 +101,7 @@ public class ColoracaoWelshPowell {
         return filaVertices;
     }
 
-    private class ComparadorMaiorGrau implements Comparator<Vertice> {
-        @Override
-        public int compare(Vertice A, Vertice B) {
-            if(A.getAdjacentes().size() > B.getAdjacentes().size()){
-                return -1;
-            }
-            if(A.getAdjacentes().size() < B.getAdjacentes().size()){
-                return 1;
-            }
-            return 0;
-        }
-    }
-
-    private class ArrayOrdenado extends ArrayList<Vertice>{
+    public class ArrayOrdenado extends ArrayList<Vertice>{
 
         public ArrayOrdenado(){
             super();

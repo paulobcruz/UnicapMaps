@@ -3,7 +3,9 @@ package unicap.grafos.unicapmaps.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -306,11 +308,11 @@ public class Main extends AppCompatActivity {
 
     private void colorir() {
         ColoracaoWelshPowell coloracaoWelshPowell = new ColoracaoWelshPowell();
-        ArrayList<Integer> coresVertices = coloracaoWelshPowell.colorir();
+        ArrayList<ArrayList> verticesComCores = coloracaoWelshPowell.colorir();
         ArestaPathView pathView = new ArestaPathView(mapaWidth, mapaHeight, escalaInicial, 2);
         grafoController.exibirGrafoCompleto(arestaView, pathView, true);
-        grafoController.colorirVertices(coresVertices, arestaView, pathView);
         arestaView.setVisibility(View.VISIBLE);
+        grafoController.colorirVertices(verticesComCores, arestaView, pathView);
     }
 
     private void modoBusca(String metodoBusca){

@@ -2,12 +2,18 @@ package unicap.grafos.unicapmaps.controller;
 
 
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
+import unicap.grafos.unicapmaps.AlgoritmosGrafo.ColoracaoWelshPowell;
 import unicap.grafos.unicapmaps.AlgoritmosGrafo.FactoryBuscas;
 import unicap.grafos.unicapmaps.AlgoritmosGrafo.InterfaceBuscaEmGrafo;
 import unicap.grafos.unicapmaps.dao.InfoBlocos;
@@ -16,6 +22,7 @@ import unicap.grafos.unicapmaps.model.Coordenadas;
 import unicap.grafos.unicapmaps.model.Grafo;
 import unicap.grafos.unicapmaps.model.Vertice;
 import unicap.grafos.unicapmaps.view.ArestaPathView;
+import unicap.grafos.unicapmaps.view.Main;
 
 /**
  * Created by Cais Automação on 06/10/2016. project UnicapMaps
@@ -190,15 +197,41 @@ public class GrafoController {
         arestaView.setImageBitmap(pathView.getBitmap());
     }
 
-    public void colorirVertices(ArrayList<Integer> coresVertices, ImageView arestaView, ArestaPathView pathView) {
+    public void colorirVertices(ArrayList<ArrayList> verticesComCores, final ImageView arestaView, final ArestaPathView pathView) {
         Vertice vertice;
+
+        ArrayList<Vertice> verticesOrdenados = verticesComCores.get(0);
+        ArrayList<Integer> coresOrdenadas = verticesComCores.get(1);
         int i, cor;
-        for(i = 0; i < coresVertices.size(); i++){
-            cor = coresVertices.get(i);
-            vertice = grafo.getVertice(i);
-            pathView.addCircle(vertice.getCoordenadas().getX(), vertice.getCoordenadas().getY(), cor, 8);
+        final Handler handler = new Handler();
+        int tempo = 500;
+
+        //primeiro deixa todos os vertices pretos
+        for(Vertice v: verticesOrdenados){
+            pathView.addCircle(v.getCoordenadas().getX(), v.getCoordenadas().getY(), Color.BLACK, 8);
+            arestaView.setImageBitmap(pathView.getBitmap());
         }
-        arestaView.setImageBitmap(pathView.getBitmap());
+
+        //colorir cada vértice na ordem das cores esolhidas no algoritmo
+        for(i = 0; i < verticesOrdenados.size(); i++){
+            vertice = verticesOrdenados.get(i);
+            cor = coresOrdenadas.get(i);
+            final int finalCor = cor;
+            final Vertice finalVertice = vertice;
+
+            //coloração com delay de 500ms entre cada vertice
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    pathView.addCircle(finalVertice.getCoordenadas().getX(), finalVertice.getCoordenadas().getY(), finalCor, 9);
+                    arestaView.setImageBitmap(pathView.getBitmap());
+                }
+            }, tempo);
+            tempo += 500;
+        }
+
+
+
     }
 
     public void exibirCaminho(ImageView arestaView, ArestaPathView pathView, ArrayList<Aresta> arestas, int cor) {
@@ -225,7 +258,5 @@ public class GrafoController {
         InfoBlocos infoBlocos = new InfoBlocos();
         return infoBlocos.getInfoBlocos();
     }
-
-
 
 }
